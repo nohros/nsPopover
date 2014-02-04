@@ -1,0 +1,29 @@
+{
+  "author": "Neylor Ohmaly",
+  "name": "nsPopover",
+  "version": "0.1.0",
+  "homepage": "http://nohros.com/nsPopover",
+  "licenses": {
+    "type": "MIT",
+    "url": "https://raw.github.com/nohros/nsPopover/master/LICENSE"
+  },
+  "bugs": "https://github.com/nohros/nsPopover/issues",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:nohros/nsPopover.git"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-clean": "~0.4.1",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-jshint": "~0.4.3",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-watch": "~0.4.0",
+    "grunt-contrib-uglify": "~0.2.0",
+    "grunt-ngmin": "0.0.2",
+    "grunt-conventional-changelog": "~0.1.1",
+    "grunt-bump": "0.0.6",
+    "grunt-contrib-sass": "~0.5.0"
+  }
+}

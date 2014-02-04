@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html ng-app="nsPopoverExample">
+<head>
+  <meta charset="utf-8">
+  <title>nsPopover demo</title>
+
+  <link rel="stylesheet" href="../build/nsPopover.css">
+
+  <style>
+    body {
+      font-family: arial, sans-serif;
+    }
+
+    a {
+      cursor: pointer;
+    }
+  </style>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular.js"></script>
+  <script src="../build/nsPopover.js"></script>
+  <script src="index.js"></script>
+
+  <script type="text/ng-template" id="popover">
+    <ul>
+      <li ng-repeat="item in items"><a>{{item.name}}</a></li>
+    </ul>
+  </script>
+
+</head>
+<body ng-controller="MainCtrl">
+
+<button ns-popover ns-popover-template="popover" ns-popover-trigger="mouseover">
+  Menu
+</button>
+</body>
+</html>
