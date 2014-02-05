@@ -57,8 +57,8 @@
           throw new Error('"' + options.placement + '" is not a valid placement or has a invalid combination of placements.');
         }
 
-        placement_ = match[3] || match[1];
-        align_ = match[4] || match[2] || 'center';
+        placement_ = match[6] || match[3] || match[1];
+        align_ = match[8] | match[4] || match[2] || 'center';
 
         $q.when(loadTemplate(options.template, options.plain)).then(function(template) {
           template = angular.isString(template) ?
