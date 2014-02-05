@@ -1,0 +1,36 @@
+body {
+  font-family: arial, sans-serif;
+  font-size: 16px;
+}
+
+a {
+  cursor: pointer;
+}
+
+button {
+  box-sizing: border-box;
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 3px;
+  border: solid 1px #0096d6;
+  background: linear-gradient(#0096d6, #0081b8);
+  color: #fff;
+}
+
+button:hover,
+button:focus,
+button:active {
+  background: #0081b8;
+  border: solid 1px #0081b8;
+}
+
+section {
+  position: relative;
+  width: 100%;
+}
+
+article {
+  position: relative;
+  margin: 0 auto;
+  float: left;
+}

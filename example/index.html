@@ -5,16 +5,7 @@
   <title>nsPopover demo</title>
 
   <link rel="stylesheet" href="../build/nsPopover.css">
-
-  <style>
-    body {
-      font-family: arial, sans-serif;
-    }
-
-    a {
-      cursor: pointer;
-    }
-  </style>
+  <link rel="stylesheet" href="index.css">
 
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular.js"></script>
   <script src="../build/nsPopover.js"></script>
@@ -29,8 +20,38 @@
 </head>
 <body ng-controller="MainCtrl">
 
-<button ns-popover ns-popover-template="popover" ns-popover-trigger="mouseover">
-  Menu
-</button>
+<section>
+  <h1> Popovers </h1>
+  <article>
+    <button ns-popover
+            ns-popover-template="popover"
+            ns-popover-trigger="click"
+            ns-popover-placement="bottom">
+      Popover on bottom
+    </button>
+
+    <button ns-popover
+            ns-popover-template="popover"
+            ns-popover-trigger="click"
+            ns-popover-placement="top">
+      Popover on top
+    </button>
+
+    <button ns-popover
+            ns-popover-template="popover"
+            ns-popover-trigger="click"
+            ns-popover-placement="left">
+      Popover on left
+    </button>
+
+    <button ns-popover
+            ns-popover-template="popover"
+            ns-popover-trigger="click"
+            ns-popover-placement="right">
+      Popover on right
+    </button>
+  </article>
+</section>
+
 </body>
 </html>
