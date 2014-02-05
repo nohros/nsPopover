@@ -36,7 +36,7 @@
           plain: attrs.nsPopoverPlain,
           trigger: attrs.nsPopoverTrigger || 'click',
           container: attrs.nsPopoverContainer,
-          placement: attrs.nsPopoverPlacement || 'bottom'
+          placement: attrs.nsPopoverPlacement || 'bottom|left'
         };
 
         var timeoutId_ = {};
@@ -47,6 +47,18 @@
         }
 
         var $popover = $el('<div></div>');
+        var placement_;
+        var align_;
+
+        var match = options.placement
+          .match(/^(top|bottom|left|right)$|((top|bottom)\|(center|left|right)+)|((left|right)\|(center|top|bottom)+)/);
+
+        if (!match) {
+          throw new Error('"' + options.placement + '" is not a valid placement or has a invalid combination of placements.');
+        }
+
+        placement_ = match[3] || match[1];
+        align_ = match[4] || match[2] || 'center';
 
         $q.when(loadTemplate(options.template, options.plain)).then(function(template) {
           template = angular.isString(template) ?
@@ -85,7 +97,7 @@
 
           // position the popover accordingly to the defined placement around the
           // |elm|.
-          move($popover, options.placement, elm[0].getBoundingClientRect());
+          move($popover, placement_, align_, elm[0].getBoundingClientRect());
 
           // Hide the popover without delay on click events.
           $popover.on('click', function() {
@@ -112,20 +124,37 @@
          * @param placement {String} The relative position to move the popover - top | bottom | left | right.
          * @param rect {ClientRect} The ClientRect of the object to move the popover around.
          */
-        function move(popover, placement, rect) {
+        function move(popover, placement, align, rect) {
           var popoverRect = popover[0].getBoundingClientRect();
           var top, left;
+
+          var positionX = function() {
+            if (align === 'center') {
+              return Math.round(rect.left + rect.width/2 - popoverRect.width/2);
+            } else {
+              return rect[align];
+            }
+          };
+
+          var positionY = function() {
+            if (align === 'center') {
+              return Math.round(rect.top + rect.height/2 - popoverRect.height/2);
+            } else {
+              return rect[align];
+            }
+          };
+
           if (placement === 'top') {
             top = rect.top - popoverRect.height - 1;
-            left = rect.left;
+            left = positionX();
           } else if (placement === 'right') {
-            top = rect.top;
+            top = positionY();
             left = rect.right +1;
           } else if (placement === 'bottom') {
             top = rect.bottom + 1;
-            left = rect.left;
+            left = positionX(align);
           } else if (placement === 'left') {
-            top = rect.top;
+            top = positionY(align);
             left = rect.left - popoverRect.width - 1;
           }
           popover
