@@ -24,13 +24,24 @@ button:active {
   border: solid 1px #0081b8;
 }
 
-section {
+body > section {
   position: relative;
   width: 100%;
+  max-width: 62.5em;
+  margin: 0 auto;
+  padding: 0 1.5em;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 article {
   position: relative;
   margin: 0 auto;
   float: left;
+}
+
+h1 {
+  border-bottom: solid 1px #b9b8bb;
+  padding-bottom: .5em;
 }
