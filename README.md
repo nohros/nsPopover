@@ -1,6 +1,6 @@
 # nsPopover
 
-nsPopover is a simple component for angularjs applications that adds small overlays of content, like those on the
+``nsPopover`` is a simple component for angularjs applications that adds small overlays of content, like those on the
 iPad, to any element for housing secondary information.. It has only angularjs as dependency.
 
 ### [Example] (http://nohros.com/nsPopover)
@@ -61,8 +61,8 @@ angular
 ### ``ns-popover-template {String}``
 
 The id of the template that contains the popover content. The content will be loaded through the
-angular ``$http`` service and cached (The content will not be loaded if it is already in ``$templateCache``). It
-can be loaded throug ``path`` to external html template or ```<script>`` tag with ``text\ng-template``.
+angular ``$http`` service and cached (content will not be loaded if it is already in ``$templateCache``). It
+can be loaded through ``path`` to external html template or ``<script>`` tag with ``text\ng-template``.
 
 ```javascript
 <script type="text\ng-template" id="templateId">
@@ -77,12 +77,12 @@ Also it is possible to use simple strings as template together with ``ns-popover
 
 A flag that indicates if the ``ns-popover-template`` is a plain string or not, default: ``false``.
 
-### ``ns-popover-trigger``
+### ``ns-popover-trigger {String}``
 
 The ``ns-popover-trigger`` specify how the popover is triggered. This can be any event that the associated
-DOM element can trigger.
+DOM element can trigger, default: ``click``.
 
-### ``ns-popover-placement``
+### ``ns-popover-placement {String}``
 
 Specifies how to position the popover relative to the triggering element - top | bottom | left | right.
 
@@ -106,7 +106,7 @@ You can customize the ``nsPopover`` through themes. You can use the ``nsPopover`
 }
 ```
 
-and them specify this them on the HTML
+and them specify this theme on the HTML
 
 ```html
   <button ns-popover
