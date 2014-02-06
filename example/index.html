@@ -7,14 +7,21 @@
   <link rel="stylesheet" href="../build/nsPopover.css">
   <link rel="stylesheet" href="index.css">
 
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular.js"></script>
+  <script src="angular.js"></script>
   <script src="../build/nsPopover.js"></script>
   <script src="index.js"></script>
 
-  <script type="text/ng-template" id="popover">
+  <script type="text/ng-template" id="menu">
     <ul>
       <li ng-repeat="item in items"><a>{{item.name}}</a></li>
     </ul>
+  </script>
+
+  <script type="text/ng-template" id="tooltip">
+    <div class="right-triangle"></div>
+    <div class="tooltip">
+      Cool! The <b>nsPopover</b> could be used as a tooptip.
+    </div>
   </script>
 
 </head>
@@ -24,27 +31,27 @@
   <h1> Popovers </h1>
   <article>
     <button ns-popover
-            ns-popover-template="popover"
+            ns-popover-template="menu"
             ns-popover-trigger="click">
       Popover on bottom
     </button>
 
     <button ns-popover
-            ns-popover-template="popover"
+            ns-popover-template="menu"
             ns-popover-trigger="click"
             ns-popover-placement="top|left">
       Popover on top
     </button>
 
     <button ns-popover
-            ns-popover-template="popover"
+            ns-popover-template="tooltip"
             ns-popover-trigger="click"
             ns-popover-placement="left">
       Popover on left
     </button>
 
     <button ns-popover
-            ns-popover-template="popover"
+            ns-popover-template="tooltip"
             ns-popover-trigger="click"
             ns-popover-placement="right">
       Popover on right

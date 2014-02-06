@@ -32,14 +32,41 @@
       link: function(scope, elm, attrs) {
         var options = {
           template: attrs.nsPopoverTemplate,
-          theme: attrs.nsPopoverTheme || 'ns-popover-default-theme',
+          theme: attrs.nsPopoverTheme || 'ns-popover-list-theme',
           plain: attrs.nsPopoverPlain,
           trigger: attrs.nsPopoverTrigger || 'click',
           container: attrs.nsPopoverContainer,
           placement: attrs.nsPopoverPlacement || 'bottom|left'
         };
 
-        var timeoutId_ = {};
+        var hider_ = {
+          id_: undefined,
+
+          /**
+           * Set the display property of the popover to 'none' after |delay| milliseconds.
+           *
+           * @param popover {Object} The popover to set the display property.
+           * @param delay {Number}  The time (in milliseconds) to wait before set the display property.
+           * @returns {Object|promise} A promise returned from the $timeout service that can be used
+           *                           to cancel the hiding operation.
+           */
+          hide: function(popover, delay) {
+            $timeout.cancel(hider_.id_);
+
+            // delay the hiding operation for 1.5s by default.
+            if (!isDef(delay)) {
+              delay = 1500;
+            }
+
+            hider_.id_ = $timeout(function() {
+              popover.css('display', 'none');
+            }, delay);
+          },
+
+          cancel: function() {
+            $timeout.cancel(hider_.id_);
+          }
+        };
 
         var $container = $el(options.container);
         if (!$container.length) {
@@ -58,7 +85,7 @@
         }
 
         placement_ = match[6] || match[3] || match[1];
-        align_ = match[8] | match[4] || match[2] || 'center';
+        align_ = match[7] || match[4] || match[2] || 'center';
 
         $q.when(loadTemplate(options.template, options.plain)).then(function(template) {
           template = angular.isString(template) ?
@@ -91,30 +118,30 @@
         elm.on(options.trigger, function(e) {
           e.preventDefault();
 
-          $timeout.cancel(timeoutId_);
+          hider_.cancel();
 
           $popover.css('display', 'block');
 
           // position the popover accordingly to the defined placement around the
           // |elm|.
-          move($popover, placement_, align_, elm[0].getBoundingClientRect());
+          move($popover, placement_, align_, getBoundingClientRect(elm[0]));
 
           // Hide the popover without delay on click events.
           $popover.on('click', function() {
-            timeoutId_ = hide($popover, 0);
+            hider_.hide($popover, 0);
           });
         });
 
         elm.on('mouseout', function() {
-          timeoutId_ = hide($popover);
+          hider_.hide($popover);
         });
 
         $popover
           .on('mouseout', function(e) {
-            timeoutId_ = hide($popover);
+            hider_.hide($popover);
           })
           .on('mouseover', function() {
-            $timeout.cancel(timeoutId_);
+            hider_.cancel();
           });
 
         /**
@@ -125,7 +152,7 @@
          * @param rect {ClientRect} The ClientRect of the object to move the popover around.
          */
         function move(popover, placement, align, rect) {
-          var popoverRect = popover[0].getBoundingClientRect();
+          var popoverRect = getBoundingClientRect(popover[0]);
           var top, left;
 
           var positionX = function() {
@@ -162,25 +189,15 @@
             .css('left', left.toString() + 'px');
         }
 
-        /**
-         * Set the display property of the popover to 'none' after |delay| milliseconds.
-         *
-         * @param popover {Object} The popover to set the display property.
-         * @param delay {Number}  The time (in milliseconds) to wait before set the display property.
-         * @returns {Object|promise} A promise returned from the $timeout service that can be used
-         *                           to cancel the hiding operation.
-         */
-        function hide(popover, delay) {
-          $timeout.cancel(timeoutId_);
-
-          // delay the hiding operation for 1.5s by default.
-          if (!isDef(delay)) {
-            delay = 1500;
-          }
-
-          return $timeout(function() {
-            popover.css('display', 'none');
-          }, delay);
+        function getBoundingClientRect(elm) {
+          var w = window;
+          var doc = document.documentElement || document.body.parentNode || document.body;
+          var x = (isDef(w.pageXOffset)) ? w.pageXOffset : doc.scrollLeft;
+          var y = (isDef(w.pageYOffset)) ? w.pageYOffset : doc.scrollTop;
+          var rect = elm.getBoundingClientRect();
+          rect.top += y;
+          rect.left += x;
+          return rect;
         }
 
         /**
