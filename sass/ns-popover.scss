@@ -24,3 +24,17 @@
     }
   }
 }
+
+.ns-popover-tooltip-theme {
+  box-sizing: border-box;
+  z-index: 100;
+  background-color: transparent;
+
+  &.ns-popover-center-align {
+    width: 0;
+    height: 0;
+    border-style: none solid solid solid;
+    border-width: 0 0.3125rem 0.3125rem 0.3125rem;
+    border-color: #fff transparent transparent transparent;
+  }
+}

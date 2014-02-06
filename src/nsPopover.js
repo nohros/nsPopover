@@ -100,6 +100,12 @@
             $popover.addClass(options.theme);
           }
 
+          // Add classes that identifies the pacement and alignment of the popver
+          // which allows the customization of the popover based on its position.
+          $popover
+            .addClass('ns-popover-' + placement_ + '-placement')
+            .addClass('ns-popover-' + align_ + '-align');
+
           $timeout(function() {
             $compile($popover)(scope);
           });
