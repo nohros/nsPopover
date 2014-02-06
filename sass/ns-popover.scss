@@ -1,9 +1,13 @@
-$popover-triangle-size: 0.6875rem !default;
-$popover-triangle-color: #fff;
+$popover-bg-color: #fff !default;
+$popover-border-color: #d2d2d2 !default;
+
+$popover-triangle-size: 11px !default;
+$popover-triangle-color: $popover-bg-color !default;
+$popover-triangle-border-color: $popover-border-color !default;
 
 .ns-popover-list-theme {
   box-sizing: border-box;
-  border: solid 1px #d2d2d2;
+  border: solid 1px $popover-border-color;
   border-radius: 3px;
   z-index: 100;
   background-color: #fff;
@@ -37,7 +41,10 @@ $popover-triangle-color: #fff;
 // $triangle-size - Used to set border-size. No default, set a px or em size.
 // $triangle-color - Used to set border-color which makes up triangle. No default
 // $triangle-direction - Used to determine which direction triangle points. Options: top, bottom, left, right
-@mixin triangle($triangle-direction, $triangle-size:$popover-triangle-size, $triangle-color:$popover-triangle-color) {
+@mixin triangle($triangle-direction,
+  $triangle-size:$popover-triangle-size,
+  $triangle-color:$popover-triangle-color,
+  $triangle-border-color:$popover-triangle-border-color) {
   content: "";
   display: block;
   width: 0;
@@ -51,13 +58,13 @@ $popover-triangle-color: #fff;
     display: block;
     width:0;
     height:0;
-    border: solid ($triangle-size - 0.0625rem);
+    border: solid ($triangle-size - 1px);
     border-color: transparent;
     position: absolute;
   }
 
   @if ($triangle-direction == top) {
-    border-top-color: rgba(0,0,0,0.25);
+    border-top-color: $triangle-border-color;
     left:50%;
     bottom: -$triangle-size;
     margin-left: -$triangle-size;
@@ -65,13 +72,13 @@ $popover-triangle-color: #fff;
     &:after {
       border-top-color: $triangle-color;
       border-bottom-width: 0;
-      bottom: 0.0625rem;
-      margin-left: -($triangle-size - 0.0625rem);
+      bottom: 1px;
+      margin-left: -($triangle-size - 1px);
     }
   }
 
   @if ($triangle-direction == bottom) {
-    border-bottom-color: rgba(0,0,0,0.25);
+    border-bottom-color: $triangle-border-color;
     left:50%;
     top: -$triangle-size;
     margin-left: -$triangle-size;
@@ -79,13 +86,13 @@ $popover-triangle-color: #fff;
     &:after {
       border-bottom-color: $triangle-color;
       border-top-width: 0;
-      top: 0.0625rem;
-      margin-left: -($triangle-size - 0.0625rem);
+      top: 1px;
+      margin-left: -($triangle-size - 1px);
     }
   }
 
   @if ($triangle-direction == left) {
-    border-left-color: rgba(0,0,0,0.25);
+    border-left-color: $triangle-border-color;
     top:50%;
     right: -$triangle-size;
     margin-top: -$triangle-size;
@@ -93,13 +100,13 @@ $popover-triangle-color: #fff;
     &:after {
       border-left-color: $triangle-color;
       border-right-width: 0;
-      right: 0.0625rem;
-      bottom: -($triangle-size - 0.0625rem);
+      right: 1px;
+      bottom: -($triangle-size - 1px);
     }
   }
 
   @if ($triangle-direction == right) {
-    border-right-color: rgba(0,0,0,0.25);
+    border-right-color: $triangle-border-color;
     top:50%;
     left: -$triangle-size;
     margin-top: -$triangle-size;
@@ -107,8 +114,8 @@ $popover-triangle-color: #fff;
     &:after {
       border-right-color: $triangle-color;
       border-left-width: 0;
-      left: 0.0625rem;
-      bottom: -($triangle-size - 0.0625rem);
+      left: 1px;
+      bottom: -($triangle-size - 1px);
     }
   }
 }
@@ -120,7 +127,7 @@ $popover-triangle-color: #fff;
 
   .ns-popover-tooltip {
     box-sizing: border-box;
-    border: solid 1px #d2d2d2;
+    border: solid 1px $popover-border-color;
     border-radius: 3px;
     z-index: 100;
     background-color: #fff;
@@ -130,7 +137,7 @@ $popover-triangle-color: #fff;
     -webkit-box-shadow: 0 0.3125rem 0.625rem rgba(0,0,0,0.2);
        -moz-box-shadow: 0 0.3125rem 0.625rem rgba(0,0,0,0.2);
             box-shadow: 0 0.3125rem 0.625rem rgba(0,0,0,0.2);
-    margin: $popover-triangle-size - 0.0625rem;
+    margin: $popover-triangle-size - 1px;
   }
 
   &.ns-popover-bottom-placement {
