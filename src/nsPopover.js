@@ -74,6 +74,7 @@
         }
 
         var $popover = $el('<div></div>');
+        var $triangle;
         var placement_;
         var align_;
 
@@ -118,6 +119,26 @@
             .css('position', 'absolute')
             .css('display', 'none');
 
+          // When the tooltip style is used we need to position the triangle in the
+          // center of the triggering element. We try first to find the elements that
+          // has the |triangle| class using the find method, hoping that the full jquery
+          // library is in use.
+          $triangle = $popover.find('.triangle');
+
+          // If the element is not found through the use of its class we will assume
+          // that the full jquery library is not in use and will try to find the
+          // triangle by inspecting each child of the |popover|.
+          if (!$triangle.length) {
+            var children = $popover.children();
+            for(var i = 0; i < children.length; ++i) {
+              var triangle = $el(children[i]);
+              if (triangle.hasClass('triangle')) {
+                $triangle = triangle;
+                break;
+              }
+            }
+          }
+
           $container.append($popover);
         });
 
@@ -130,7 +151,7 @@
 
           // position the popover accordingly to the defined placement around the
           // |elm|.
-          move($popover, placement_, align_, getBoundingClientRect(elm[0]));
+          move($popover, placement_, align_, getBoundingClientRect(elm[0]), $triangle);
 
           // Hide the popover without delay on click events.
           $popover.on('click', function() {
@@ -155,18 +176,21 @@
          *
          * @param popover {Object} The popover object to be moved.
          * @param placement {String} The relative position to move the popover - top | bottom | left | right.
+         * @param align {String} The way the popover should be aligned - center | left | right.
          * @param rect {ClientRect} The ClientRect of the object to move the popover around.
+         * @param triangle {Object} The element that contains the popover's triangle. This can be null.
          */
-        function move(popover, placement, align, rect) {
+        function move(popover, placement, align, rect, triangle) {
           var popoverRect = getBoundingClientRect(popover[0]);
           var top, left;
 
           var positionX = function() {
             if (align === 'center') {
               return Math.round(rect.left + rect.width/2 - popoverRect.width/2);
-            } else {
-              return rect[align];
+            } else if(align === 'right') {
+              return rect.right - popoverRect.width;
             }
+            return rect.left;
           };
 
           var positionY = function() {
@@ -185,14 +209,25 @@
             left = rect.right +1;
           } else if (placement === 'bottom') {
             top = rect.bottom + 1;
-            left = positionX(align);
+            left = positionX();
           } else if (placement === 'left') {
-            top = positionY(align);
+            top = positionY();
             left = rect.left - popoverRect.width - 1;
           }
+
           popover
             .css('top', top.toString() + 'px')
             .css('left', left.toString() + 'px');
+
+          if (triangle) {
+            if (placement === 'top' || placement === 'bottom') {
+              left = rect.left + rect.width / 2 - left;
+              triangle.css('left', left.toString() + 'px');
+            } else {
+              top = rect.top + rect.height / 2 - top;
+              triangle.css('top',  + 'px');
+            }
+          }
         }
 
         function getBoundingClientRect(elm) {

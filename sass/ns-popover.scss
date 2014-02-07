@@ -163,4 +163,16 @@ $popover-triangle-border-color: $popover-border-color !default;
       @include triangle("left");
     }
   }
+
+  &.ns-popover-left-align {
+    .ns-popover-tooltip {
+      margin-left: 0;
+    }
+  }
+
+  &.ns-popover-right-align {
+    .ns-popover-tooltip {
+      margin-right: 0;
+    }
+  }
 }
