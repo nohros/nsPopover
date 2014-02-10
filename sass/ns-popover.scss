@@ -138,6 +138,25 @@ $popover-triangle-border-color: $popover-border-color !default;
        -moz-box-shadow: 0 0.3125rem 0.625rem rgba(0,0,0,0.2);
             box-shadow: 0 0.3125rem 0.625rem rgba(0,0,0,0.2);
     margin: $popover-triangle-size - 1px;
+
+    ul {
+      padding: 0;
+      margin: 0.625rem 0;
+      display: block;
+    }
+
+    li {
+      list-style-type: none;
+
+      a {
+        padding: 0.1875rem 0.625rem;
+        display: block;
+
+        &:hover {
+          background-color: #f5f5f5;
+        }
+      }
+    }
   }
 
   &.ns-popover-bottom-placement {
@@ -173,6 +192,18 @@ $popover-triangle-border-color: $popover-border-color !default;
   &.ns-popover-right-align {
     .ns-popover-tooltip {
       margin-right: 0;
+    }
+  }
+
+  &.ns-popover-top-align {
+    .ns-popover-tooltip {
+      margin-top: 0;
+    }
+  }
+
+  &.ns-popover-bottom-align {
+    .ns-popover-tooltip {
+      margin-bottom: 0;
     }
   }
 }

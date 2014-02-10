@@ -75,6 +75,15 @@ module.exports = function(grunt) {
           expand: true,
           flatten: true
         }]
+      },
+      example : {
+        files : [{
+          src: ['<%= build_dir %>/**/*'],
+          dest: '<%= example_dir %>/',
+          cwd: '.',
+          expand: true,
+          flatten: true
+        }]
       }
     },
 
@@ -194,7 +203,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', ['build', 'compile']);
 
-  grunt.registerTask('build', ['clean', 'sass:build', 'jshint', 'copy:js']);
+  grunt.registerTask('build', ['clean', 'sass:build', 'jshint', 'copy:js', 'copy:example']);
 
   /**
    * The 'compile' task gets your app ready for deployment by concatenating and

@@ -45,23 +45,13 @@ h1 {
   padding-bottom: .5em;
 }
 
-
-.tooltip {
-  padding: 0.75em 1.5em;
-  max-width: 15em;
-  font-size: 0.875em;
+a {
+  cursor: pointer;
+  padding: 6px 12px;
+  text-decoration: underline;
+  color: #0096d6;
 }
 
-.right-triangle
-.left-triangle {
-  content: "";
-  display: block;
-  width: 0;
-  height: 0;
-  border: inset 1em;
-}
-
-.right-triangle {
-  border-color: transparent #fff transparent transparent;
-  border-right-style: solid;
+.ns-popover-tooltip a {
+  text-decoration: none;
 }

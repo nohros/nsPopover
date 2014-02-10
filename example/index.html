@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <title>nsPopover demo</title>
 
-  <link rel="stylesheet" href="../build/nsPopover.css">
+  <link rel="stylesheet" href="nsPopover.css">
   <link rel="stylesheet" href="index.css">
 
-  <script src="angular.js"></script>
-  <script src="../build/nsPopover.js"></script>
+  <script src="angular.min.js"></script>
+  <script src="nsPopover.js"></script>
   <script src="index.js"></script>
 
   <script type="text/ng-template" id="menu">
@@ -31,38 +31,26 @@
 <body ng-controller="MainCtrl">
 
 <section viewport-width>
-  <h1> Popovers </h1>
-    <article>
-    <button ns-popover
-            ns-popover-template="menu"
-            ns-popover-trigger="click"
-            ns-popover-theme="ns-popover-tooltip-theme">
-      Popover on bottom
-    </button>
+  <h1> Menus </h1>
+  <article>
+    <p>
+      <b>nsPopover</b> could be used as a simple dropdown menu. You can use the built-in "ns-popover-list-theme" to
+      style the popover as a dropdown or create a custom one.
+    </p>
 
     <button ns-popover
             ns-popover-template="menu"
             ns-popover-trigger="click"
-            ns-popover-placement="top|left"
-            ns-popover-theme="ns-popover-tooltip-theme">
-      Popover on top
+            ns-popover-theme="ns-popover-list-theme">
+      Click me
     </button>
 
-    <button ns-popover
-            ns-popover-template="tooltip"
-            ns-popover-trigger="click"
-            ns-popover-placement="bottom|right"
-            ns-popover-theme="ns-popover-tooltip-theme">
-      Popover on left
-    </button>
-
-    <button ns-popover
-            ns-popover-template="tooltip"
-            ns-popover-trigger="click"
-            ns-popover-placement="right"
-            ns-popover-theme="ns-popover-tooltip-theme">
-      Popover on right
-    </button>
+    <a ns-popover
+       ns-popover-template="menu"
+       ns-popover-trigger="mouseenter"
+       ns-popover-theme="ns-popover-list-theme">
+      Hover me
+    </a>
   </article>
 </section>
 
