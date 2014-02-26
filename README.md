@@ -82,6 +82,11 @@ A flag that indicates if the ``ns-popover-template`` is a plain string or not, d
 The ``ns-popover-trigger`` specify how the popover is triggered. This can be any event that the associated
 DOM element can trigger, default: ``click``.
 
+### ``ns-popover-timeout {Number}``
+
+The ``ns-popover-timeout`` specify the time to wait before closing the popover and after the mouseout event is
+triggered by the popover.
+
 ### ``ns-popover-placement {String}``
 
 Specifies how to position the popover relative to the triggering element. The placement attribute has the given
