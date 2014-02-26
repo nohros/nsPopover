@@ -6,26 +6,6 @@
   var isDef = angular.isDefined;
   var forEach = angular.forEach;
 
-  /**
-   * Extends the destination objec 'dst' by copying all of the properties from the 'src' object(s)
-   * to 'dst'. Multiple src objects could be specified. 'undefined' values are not copied.
-   *
-   * @param {Object} dst The destination object.
-   * @param {Object} src The spurce object.
-   * @returns {Object} Reference to 'dst'.
-   */
-  var extend_ = function extend(dst, src) {
-    forEach(arguments, function(obj) {
-      if (obj !== src) {
-        forEach(obj, function(value, key) {
-          if (isDef(value)) {
-            dst[key] = value;
-          }
-        });
-      }
-    });
-  };
-
   module.directive('nsPopover', function($timeout, $templateCache, $q, $http, $compile, $document) {
     return {
       restrict: 'A',
@@ -36,7 +16,8 @@
           plain: attrs.nsPopoverPlain,
           trigger: attrs.nsPopoverTrigger || 'click',
           container: attrs.nsPopoverContainer,
-          placement: attrs.nsPopoverPlacement || 'bottom|left'
+          placement: attrs.nsPopoverPlacement || 'bottom|left',
+          timeout: attrs.nsPopoverTimeout || 1.5
         };
 
         var hider_ = {
@@ -46,7 +27,7 @@
            * Set the display property of the popover to 'none' after |delay| milliseconds.
            *
            * @param popover {Object} The popover to set the display property.
-           * @param delay {Number}  The time (in milliseconds) to wait before set the display property.
+           * @param delay {Number}  The time (in seconds) to wait before set the display property.
            * @returns {Object|promise} A promise returned from the $timeout service that can be used
            *                           to cancel the hiding operation.
            */
@@ -55,12 +36,12 @@
 
             // delay the hiding operation for 1.5s by default.
             if (!isDef(delay)) {
-              delay = 1500;
+              delay = 1.5;
             }
 
             hider_.id_ = $timeout(function() {
               popover.css('display', 'none');
-            }, delay);
+            }, delay*1000);
           },
 
           cancel: function() {
@@ -160,12 +141,12 @@
         });
 
         elm.on('mouseout', function() {
-          hider_.hide($popover);
+          hider_.hide($popover, options.timeout);
         });
 
         $popover
           .on('mouseout', function(e) {
-            hider_.hide($popover);
+            hider_.hide($popover, options.timeout);
           })
           .on('mouseover', function() {
             hider_.cancel();
