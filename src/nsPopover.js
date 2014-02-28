@@ -140,9 +140,13 @@
           });
         });
 
-        elm.on('mouseout', function() {
-          hider_.hide($popover, options.timeout);
-        });
+        elm
+          .on('mouseout', function() {
+            hider_.hide($popover, options.timeout);
+          })
+          .on('mouseover', function() {
+            hider_.cancel();
+          });
 
         $popover
           .on('mouseout', function(e) {

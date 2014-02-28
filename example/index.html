@@ -53,6 +53,29 @@
       Hover me
     </a>
   </article>
+
+  <h1> Tooltip </h1>
+  <article>
+    <p>
+      <b>nsPopover</b> could be used as a simple dropdown menu. You can use the built-in "ns-popover-list-theme" to
+      style the popover as a dropdown or create a custom one.
+    </p>
+
+    <button ns-popover
+            ns-popover-template="menu"
+            ns-popover-trigger="click"
+            ns-popover-theme="ns-popover-tooltip-theme"
+            ns-popover-timeout="1">
+      Click Me
+    </button>
+
+    <a ns-popover
+       ns-popover-template="menu"
+       ns-popover-trigger="mouseenter"
+       ns-popover-theme="ns-popover-tooltip-theme">
+      Hover me
+    </a>
+  </article>
 </section>
 
 </body>

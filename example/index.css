@@ -40,9 +40,14 @@ article {
   float: left;
 }
 
+article:after {
+  clear: both;
+}
+
 h1 {
   border-bottom: solid 1px #b9b8bb;
   padding-bottom: .5em;
+  display:block;
 }
 
 a {
