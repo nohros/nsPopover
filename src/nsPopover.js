@@ -5,6 +5,8 @@
   var $el = angular.element;
   var isDef = angular.isDefined;
   var forEach = angular.forEach;
+  var $popovers = [];
+  var globalId = 0;
 
   module.directive('nsPopover', function($timeout, $templateCache, $q, $http, $compile, $document) {
     return {
@@ -54,10 +56,14 @@
           $container = $document.find('body');
         }
 
-        var $popover = $el('<div></div>');
         var $triangle;
         var placement_;
         var align_;
+
+        globalId += 1;
+
+        var $popover = $el('<div id="nspopover-' + globalId +'"></div>');
+        $popovers.push($popover);
 
         var match = options.placement
           .match(/^(top|bottom|left|right)$|((top|bottom)\|(center|left|right)+)|((left|right)\|(center|top|bottom)+)/);
@@ -222,8 +228,19 @@
           var x = (isDef(w.pageXOffset)) ? w.pageXOffset : doc.scrollLeft;
           var y = (isDef(w.pageYOffset)) ? w.pageYOffset : doc.scrollTop;
           var rect = elm.getBoundingClientRect();
-          rect.top += y;
-          rect.left += x;
+
+          // ClientRect class is immutable, so we need to return a modified copy
+          // of it when the window has been scrolled.
+          if (x || y) {
+            return {
+              bottom:rect.bottom+y,
+              left:rect.left + x,
+              right:rect.right + x,
+              top:rect.top + y,
+              height:rect.height,
+              width:rect.width
+            };
+          }
           return rect;
         }
 
