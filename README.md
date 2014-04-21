@@ -3,11 +3,11 @@
 ``nsPopover`` is a simple component for angularjs applications that adds small overlays of content, like those on the
 iPad, to any element for housing secondary information.. It has only angularjs as dependency.
 
+### [Example] (http://nohros.com/nsPopover)
+
 ## Getting Involved
 We use the Collective Code Construction Contract (http://rfc.zeromq.org/spec:22).
 collaboration model.
-
-### [Example] (http://nohros.com/nsPopove
 
 ## Install
 
