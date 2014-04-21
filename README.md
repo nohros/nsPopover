@@ -123,6 +123,10 @@ the possible combinations of [position] and [alignment].
  * right|bottom - The popover will be positioned on the right side of the triggering element and its bottom will be
                  aligned with the bottom of the triggering element.
 
+### ``ns-popover-hide-on-click {Boolean}``
+
+Whether or not to hide the popover when it is clicked on, default: ``true``.
+
 
 
 ### Themes

@@ -37,11 +37,11 @@ body > section {
 article {
   position: relative;
   margin: 0 auto;
-  float: left;
 }
 
-article:after {
-  clear: both;
+article + h1 {
+  clear: left;
+  display: block;
 }
 
 h1 {
