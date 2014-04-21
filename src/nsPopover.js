@@ -19,7 +19,8 @@
           trigger: attrs.nsPopoverTrigger || 'click',
           container: attrs.nsPopoverContainer,
           placement: attrs.nsPopoverPlacement || 'bottom|left',
-          timeout: attrs.nsPopoverTimeout || 1.5
+          timeout: attrs.nsPopoverTimeout || 1.5,
+          hideOnClick: attrs.nsPopoverHideOnClick === 'true' || attrs.nsPopoverHideOnClick === undefined
         };
 
         var hider_ = {
@@ -140,10 +141,12 @@
           // |elm|.
           move($popover, placement_, align_, getBoundingClientRect(elm[0]), $triangle);
 
-          // Hide the popover without delay on click events.
-          $popover.on('click', function() {
-            hider_.hide($popover, 0);
-          });
+          if (options.hideOnClick) {
+            // Hide the popover without delay on click events.
+            $popover.on('click', function () {
+              hider_.hide($popover, 0);
+            });
+          }
         });
 
         elm
