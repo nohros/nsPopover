@@ -103,6 +103,10 @@
             $popover.remove();
           });
 
+          scope.hidePopover = function() {
+            hider_.hide($popover, 0);
+          };
+
           $popover
             .css('position', 'absolute')
             .css('display', 'none');

@@ -127,7 +127,15 @@ the possible combinations of [position] and [alignment].
 
 Whether or not to hide the popover when it is clicked on, default: ``true``.
 
+### Programmatic Hiding of the Popover
 
+Register the ``hidePopover()`` function against a ``ng-click`` directive to hide the popover when a specific element is clicked (e.g. a close button):
+
+```html
+<button ng-click="hidePopover()">Close</button>
+```
+
+This button lives within the popover template.
 
 ### Themes
 
