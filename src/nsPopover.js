@@ -11,6 +11,7 @@
   module.directive('nsPopover', function($timeout, $templateCache, $q, $http, $compile, $document) {
     return {
       restrict: 'A',
+      scope: true,
       link: function(scope, elm, attrs) {
         var options = {
           template: attrs.nsPopoverTemplate,
