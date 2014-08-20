@@ -3,11 +3,6 @@
 ``nsPopover`` is a simple component for angularjs applications that adds small overlays of content, like those on the
 iPad, to any element for housing secondary information.. It has only angularjs as dependency.
 
-## Fork details
-This fork adds mouse relative positioning  
-usage: ns-popover-mouse-relative = "x" | "y" | "xy"  
-Suggest to lock to either x XOR y. Otherwise looks stupid.
-
 ### [Example] (http://nohros.com/nsPopover)
 
 ## Getting Involved
@@ -131,6 +126,13 @@ the possible combinations of [position] and [alignment].
 ### ``ns-popover-hide-on-click {Boolean}``
 
 Whether or not to hide the popover when it is clicked on, default: ``true``.
+
+### ``ns-popover-mouse-relative {{String}}``
+
+Locks the position relative to the mouse. The following are possible values:
+ * x - Constraints the x axis to follow the mouse
+ * y - Constraints the y axis to follow the mouse
+ * xy - Constraints both the x and y axis to follow the mouse
 
 ### Programmatic Hiding of the Popover
 
