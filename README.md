@@ -127,6 +127,13 @@ the possible combinations of [position] and [alignment].
 
 Whether or not to hide the popover when it is clicked on, default: ``true``.
 
+### ``ns-popover-mouse-relative {{String}}``
+
+Locks the position relative to the mouse. The following are possible values:
+ * x - Constraints the x axis to follow the mouse
+ * y - Constraints the y axis to follow the mouse
+ * xy - Constraints both the x and y axis to follow the mouse
+
 ### Programmatic Hiding of the Popover
 
 Register the ``hidePopover()`` function against a ``ng-click`` directive to hide the popover when a specific element is clicked (e.g. a close button):
