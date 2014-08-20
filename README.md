@@ -4,8 +4,9 @@
 iPad, to any element for housing secondary information.. It has only angularjs as dependency.
 
 ## Fork details
-This fork adds the following:
-* mouse relative positioning
+This fork adds mouse relative positioning  
+usage: ns-popover-mouse-relative = "x" | "y" | "xy"  
+Suggest to lock to either x XOR y. Otherwise looks stupid.
 
 ### [Example] (http://nohros.com/nsPopover)
 
