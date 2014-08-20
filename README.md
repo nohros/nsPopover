@@ -6,7 +6,6 @@ iPad, to any element for housing secondary information.. It has only angularjs a
 ## Fork details
 This fork adds the following:
 * mouse relative positioning
-* disables hide on click by default (You can still hide on click by using ng-click="hidePopover()").  
 
 ### [Example] (http://nohros.com/nsPopover)
 
