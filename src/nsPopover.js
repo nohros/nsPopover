@@ -21,7 +21,9 @@
           container: attrs.nsPopoverContainer,
           placement: attrs.nsPopoverPlacement || 'bottom|left',
           timeout: attrs.nsPopoverTimeout || 1.5,
-          hideOnClick: attrs.nsPopoverHideOnClick === 'true' || attrs.nsPopoverHideOnClick === undefined
+          hideOnClick: attrs.nsPopoverHideOnClick === 'true' || attrs.nsPopoverHideOnClick === undefined,
+		  mouserelative_x: attrs.nsPopoverMouseRelative === 'x' || attrs.nsPopoverMouseRelative === 'xy',
+		  mouserelative_y: attrs.nsPopoverMouseRelative === 'y' || attrs.nsPopoverMouseRelative === 'xy'
         };
 
         var hider_ = {
@@ -144,7 +146,7 @@
 
           // position the popover accordingly to the defined placement around the
           // |elm|.
-          move($popover, placement_, align_, getBoundingClientRect(elm[0]), $triangle);
+          move($popover, placement_, align_, getBoundingClientRect(elm[0]), $triangle, options.mouserelative_x, options.mouserelative_y, e);
 
           if (options.hideOnClick) {
             // Hide the popover without delay on click events.
@@ -179,10 +181,24 @@
          * @param rect {ClientRect} The ClientRect of the object to move the popover around.
          * @param triangle {Object} The element that contains the popover's triangle. This can be null.
          */
-        function move(popover, placement, align, rect, triangle) {
+        function move(popover, placement, align, rect, triangle, mouserelative_x, mouserelative_y, event) {
           var popoverRect = getBoundingClientRect(popover[0]);
           var top, left;
-
+		  
+		  var rect = JSON.parse(JSON.stringify(rect)); //effective clone.
+		  if(mouserelative_x)
+		  {
+			rect.left = event.pageX;
+			rect.right = event.pageX;
+			rect.width = 0;
+		  }
+		  if(mouserelative_y)
+		  {
+			rect.top = event.pageY;
+			rect.bottom = event.pageY;
+			rect.height = 0;
+		  }
+            
           var positionX = function() {
             if (align === 'center') {
               return Math.round(rect.left + rect.width/2 - popoverRect.width/2);
