@@ -3,6 +3,12 @@
 ``nsPopover`` is a simple component for angularjs applications that adds small overlays of content, like those on the
 iPad, to any element for housing secondary information.. It has only angularjs as dependency.
 
+## Fork details
+This fork adds the following:
+* mouse relative positioning
+* disables hide on click by default
+* * You can still hide on click by using ng-click="hidePopover()".
+
 ### [Example] (http://nohros.com/nsPopover)
 
 ## Getting Involved
