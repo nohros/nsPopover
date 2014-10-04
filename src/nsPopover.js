@@ -8,7 +8,7 @@
   var $popovers = [];
   var globalId = 0;
 
-  module.directive('nsPopover', function($timeout, $templateCache, $q, $http, $compile, $document) {
+  module.directive('nsPopover', ["$timeout", "$templateCache", "$q", "$http", "$compile", "$document", function($timeout, $templateCache, $q, $http, $compile, $document) {
     return {
       restrict: 'A',
       scope: true,
@@ -288,5 +288,5 @@
         }
       }
     };
-  });
+  }]);
 })(window, window.angular);
