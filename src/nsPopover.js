@@ -8,22 +8,52 @@
   var $popovers = [];
   var globalId = 0;
 
-  module.directive('nsPopover', ["$timeout", "$templateCache", "$q", "$http", "$compile", "$document", function($timeout, $templateCache, $q, $http, $compile, $document) {
+  module.provider('nsPopover', function () {
+    var defaults = {
+      template: '',
+      theme: 'ns-popover-list-theme',
+      plain: false,
+      trigger: 'click',
+      container: 'body',
+      placement: 'bottom|left',
+      timeout: 1.5,
+      hideOnClick: true,
+      mouserelative_x: false,
+      mouserelative_y: false
+    };
+
+    this.setDefaults = function (newDefaults) {
+      angular.extend(defaults, newDefaults);
+    };
+
+    this.$get = [
+      function () {
+        return {
+          getDefaults: function () {
+            return defaults;
+          }
+        };
+      }];
+  });
+
+  module.directive('nsPopover', ["nsPopover", "$timeout", "$templateCache", "$q", "$http", "$compile", "$document", function(nsPopover, $timeout, $templateCache, $q, $http, $compile, $document) {
     return {
       restrict: 'A',
       scope: true,
       link: function(scope, elm, attrs) {
+        var defaults = nsPopover.getDefaults();
+
         var options = {
-          template: attrs.nsPopoverTemplate,
-          theme: attrs.nsPopoverTheme || 'ns-popover-list-theme',
-          plain: attrs.nsPopoverPlain,
-          trigger: attrs.nsPopoverTrigger || 'click',
-          container: attrs.nsPopoverContainer,
-          placement: attrs.nsPopoverPlacement || 'bottom|left',
-          timeout: attrs.nsPopoverTimeout || 1.5,
-          hideOnClick: attrs.nsPopoverHideOnClick === 'true' || attrs.nsPopoverHideOnClick === undefined,
-		  mouserelative_x: attrs.nsPopoverMouseRelative === 'x' || attrs.nsPopoverMouseRelative === 'xy',
-		  mouserelative_y: attrs.nsPopoverMouseRelative === 'y' || attrs.nsPopoverMouseRelative === 'xy'
+          template: attrs.nsPopoverTemplate || defaults.template,
+          theme: attrs.nsPopoverTheme || defaults.theme,
+          plain: attrs.nsPopoverPlain || defaults.plain,
+          trigger: attrs.nsPopoverTrigger || defaults.trigger,
+          container: attrs.nsPopoverContainer || defaults.container,
+          placement: attrs.nsPopoverPlacement || defaults.placement ,
+          timeout: attrs.nsPopoverTimeout || defaults.timeout,
+          hideOnClick: attrs.nsPopoverHideOnClick === 'true' || attrs.nsPopoverHideOnClick === undefined || defaults.hideOnClick,
+    		  mouserelative_x: attrs.nsPopoverMouseRelative === 'x' || attrs.nsPopoverMouseRelative === 'xy' || defaults.mouserelative_x,
+    		  mouserelative_y: attrs.nsPopoverMouseRelative === 'y' || attrs.nsPopoverMouseRelative === 'xy' || defaults.mouserelative_y
         };
 
         var hider_ = {
