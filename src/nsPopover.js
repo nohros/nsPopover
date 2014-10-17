@@ -51,9 +51,15 @@
           container: attrs.nsPopoverContainer || defaults.container,
           placement: attrs.nsPopoverPlacement || defaults.placement ,
           timeout: attrs.nsPopoverTimeout || defaults.timeout,
-          hideOnClick: attrs.nsPopoverHideOnClick === 'true' || attrs.nsPopoverHideOnClick === undefined || defaults.hideOnClick,
-    		  mouserelative_x: attrs.nsPopoverMouseRelative === 'x' || attrs.nsPopoverMouseRelative === 'xy' || defaults.mouserelative_x,
-    		  mouserelative_y: attrs.nsPopoverMouseRelative === 'y' || attrs.nsPopoverMouseRelative === 'xy' || defaults.mouserelative_y
+          hideOnClick: angular.isString(attrs.nsPopoverHideOnClick) ?
+                attrs.nsPopoverHideOnClick === 'true' : 
+                defaults.hideOnClick,
+          mouserelative_x: angular.isString(attrs.nsPopoverMouseRelative) ?
+                attrs.nsPopoverMouseRelative.indexOf('x') !== -1 :
+                defaults.mouserelative_x,
+          mouserelative_y: angular.isString(attrs.nsPopoverMouseRelative) ?
+                attrs.nsPopoverMouseRelative.indexOf('y') !== -1 :
+                defaults.mouserelative_y
         };
 
         var hider_ = {
