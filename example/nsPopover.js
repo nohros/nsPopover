@@ -8,19 +8,56 @@
   var $popovers = [];
   var globalId = 0;
 
-  module.directive('nsPopover', function($timeout, $templateCache, $q, $http, $compile, $document) {
+  module.provider('nsPopover', function () {
+    var defaults = {
+      template: '',
+      theme: 'ns-popover-list-theme',
+      plain: 'false',
+      trigger: 'click',
+      container: 'body',
+      placement: 'bottom|left',
+      timeout: 1.5,
+      hideOnClick: 'true',
+      mouseRelative: ''
+    };
+
+    this.setDefaults = function (newDefaults) {
+      angular.extend(defaults, newDefaults);
+    };
+
+    this.$get = [
+      function () {
+        return {
+          getDefaults: function () {
+            return defaults;
+          }
+        };
+      }];
+  });
+
+  module.directive('nsPopover', ['nsPopover', '$timeout', '$templateCache', '$q', '$http', '$compile', '$document', function(nsPopover, $timeout, $templateCache, $q, $http, $compile, $document) {
     return {
       restrict: 'A',
+      scope: true,
       link: function(scope, elm, attrs) {
+        var defaults = nsPopover.getDefaults();
+
         var options = {
-          template: attrs.nsPopoverTemplate,
-          theme: attrs.nsPopoverTheme || 'ns-popover-list-theme',
-          plain: attrs.nsPopoverPlain,
-          trigger: attrs.nsPopoverTrigger || 'click',
-          container: attrs.nsPopoverContainer,
-          placement: attrs.nsPopoverPlacement || 'bottom|left',
-          timeout: attrs.nsPopoverTimeout || 1.5
+          template: attrs.nsPopoverTemplate || defaults.template,
+          theme: attrs.nsPopoverTheme || defaults.theme,
+          plain: toBoolean(attrs.nsPopoverPlain || defaults.plain),
+          trigger: attrs.nsPopoverTrigger || defaults.trigger,
+          container: attrs.nsPopoverContainer || defaults.container,
+          placement: attrs.nsPopoverPlacement || defaults.placement ,
+          timeout: attrs.nsPopoverTimeout || defaults.timeout,
+          hideOnClick: toBoolean(attrs.nsPopoverHideOnClick || defaults.hideOnClick),
+          mouseRelative: attrs.nsPopoverMouseRelative
         };
+
+        if (options.mouseRelative) {
+          options.mouseRelativeX = options.mouseRelative.indexOf('x') !== -1;
+          options.mouseRelativeY = options.mouseRelative.indexOf('y') !== -1;
+        }
 
         var hider_ = {
           id_: undefined,
@@ -51,7 +88,7 @@
           }
         };
 
-        var $container = $el(options.container);
+        var $container = $document[0].querySelector(options.container);
         if (!$container.length) {
           $container = $document.find('body');
         }
@@ -102,6 +139,10 @@
             $popover.remove();
           });
 
+          scope.hidePopover = function() {
+            hider_.hide($popover, 0);
+          };
+
           $popover
             .css('position', 'absolute')
             .css('display', 'none');
@@ -138,12 +179,22 @@
 
           // position the popover accordingly to the defined placement around the
           // |elm|.
-          move($popover, placement_, align_, getBoundingClientRect(elm[0]), $triangle);
+          var elmRect = getBoundingClientRect(elm[0]);
 
-          // Hide the popover without delay on click events.
-          $popover.on('click', function() {
-            hider_.hide($popover, 0);
-          });
+          // If the mouse-relative options is specified we need to adjust the
+          // element client rect to the current mouse coordinates.
+          if (options.mouseRelative) {
+            elmRect = adjustRect(elmRect, options.mouseRelativeX, options.mouseRelativeY);
+          }
+
+          move($popover, placement_, align_, elmRect, $triangle);
+
+          if (options.hideOnClick) {
+            // Hide the popover without delay on click events.
+            $popover.on('click', function () {
+              hider_.hide($popover, 0);
+            });
+          }
         });
 
         elm
@@ -174,10 +225,10 @@
         function move(popover, placement, align, rect, triangle) {
           var popoverRect = getBoundingClientRect(popover[0]);
           var top, left;
-
+            
           var positionX = function() {
             if (align === 'center') {
-              return Math.round(rect.left + rect.width/2 - popoverRect.width/2);
+              return Math.round(localRect.left + localRect.width/2 - popoverRect.width/2);
             } else if(align === 'right') {
               return rect.right - popoverRect.width;
             }
@@ -222,6 +273,37 @@
           }
         }
 
+        /**
+         * Adjust a rect accordingly to the given x and y mouse positions.
+         *
+         * @param rect {ClientRect} The rect to be adjusted.
+         */
+        function adjustRect(rect, adjustX, adjustY, ev) {
+          // if pageX or pageY is defined we need to lock the popover to the given
+          // x and y position.
+          // clone the rect, so we can manipulate its properties.
+          var localRect = {
+            bottom: rect.bottom,
+            height: rect.height,
+            left: rect.left,
+            right: rect.right,
+            top: rect.top,
+            width: rect.width
+          };
+
+          if (adjustX) {
+            localRect.left = ev. pageX;
+            localRect.right = ev.pageX;
+            localRect.width = 0;
+          }
+
+          if (adjustY) {
+            localRect.top = ev.pageY;
+            localRect.bottom = ev.pageY;
+            localRect.height = 0;
+          }
+        }
+
         function getBoundingClientRect(elm) {
           var w = window;
           var doc = document.documentElement || document.body.parentNode || document.body;
@@ -244,6 +326,16 @@
           return rect;
         }
 
+        function toBoolean(value) {
+          if (value && value.length !== 0) {
+            var v = ("" + value).toLowerCase();
+            value = (v == 'true');
+          } else {
+            value = false;
+          }
+          return value;
+        }
+
         /**
          * Load the given template in the cache if it is not already loaded.
          *
@@ -264,5 +356,5 @@
         }
       }
     };
-  });
+  }]);
 })(window, window.angular);

@@ -12,14 +12,13 @@
     var defaults = {
       template: '',
       theme: 'ns-popover-list-theme',
-      plain: false,
+      plain: 'false',
       trigger: 'click',
       container: 'body',
       placement: 'bottom|left',
       timeout: 1.5,
-      hideOnClick: true,
-      mouserelative_x: false,
-      mouserelative_y: false
+      hideOnClick: 'true',
+      mouseRelative: ''
     };
 
     this.setDefaults = function (newDefaults) {
@@ -36,7 +35,7 @@
       }];
   });
 
-  module.directive('nsPopover', ["nsPopover", "$timeout", "$templateCache", "$q", "$http", "$compile", "$document", function(nsPopover, $timeout, $templateCache, $q, $http, $compile, $document) {
+  module.directive('nsPopover', ['nsPopover', '$timeout', '$templateCache', '$q', '$http', '$compile', '$document', function(nsPopover, $timeout, $templateCache, $q, $http, $compile, $document) {
     return {
       restrict: 'A',
       scope: true,
@@ -46,21 +45,19 @@
         var options = {
           template: attrs.nsPopoverTemplate || defaults.template,
           theme: attrs.nsPopoverTheme || defaults.theme,
-          plain: attrs.nsPopoverPlain || defaults.plain,
+          plain: toBoolean(attrs.nsPopoverPlain || defaults.plain),
           trigger: attrs.nsPopoverTrigger || defaults.trigger,
           container: attrs.nsPopoverContainer || defaults.container,
           placement: attrs.nsPopoverPlacement || defaults.placement ,
           timeout: attrs.nsPopoverTimeout || defaults.timeout,
-          hideOnClick: angular.isString(attrs.nsPopoverHideOnClick) ?
-                attrs.nsPopoverHideOnClick === 'true' : 
-                defaults.hideOnClick,
-          mouserelative_x: angular.isString(attrs.nsPopoverMouseRelative) ?
-                attrs.nsPopoverMouseRelative.indexOf('x') !== -1 :
-                defaults.mouserelative_x,
-          mouserelative_y: angular.isString(attrs.nsPopoverMouseRelative) ?
-                attrs.nsPopoverMouseRelative.indexOf('y') !== -1 :
-                defaults.mouserelative_y
+          hideOnClick: toBoolean(attrs.nsPopoverHideOnClick || defaults.hideOnClick),
+          mouseRelative: attrs.nsPopoverMouseRelative
         };
+
+        if (options.mouseRelative) {
+          options.mouseRelativeX = options.mouseRelative.indexOf('x') !== -1;
+          options.mouseRelativeY = options.mouseRelative.indexOf('y') !== -1;
+        }
 
         var hider_ = {
           id_: undefined,
@@ -182,7 +179,15 @@
 
           // position the popover accordingly to the defined placement around the
           // |elm|.
-          move($popover, placement_, align_, getBoundingClientRect(elm[0]), $triangle, options.mouserelative_x, options.mouserelative_y, e);
+          var elmRect = getBoundingClientRect(elm[0]);
+
+          // If the mouse-relative options is specified we need to adjust the
+          // element client rect to the current mouse coordinates.
+          if (options.mouseRelative) {
+            elmRect = adjustRect(elmRect, options.mouseRelativeX, options.mouseRelativeY);
+          }
+
+          move($popover, placement_, align_, elmRect, $triangle);
 
           if (options.hideOnClick) {
             // Hide the popover without delay on click events.
@@ -217,27 +222,13 @@
          * @param rect {ClientRect} The ClientRect of the object to move the popover around.
          * @param triangle {Object} The element that contains the popover's triangle. This can be null.
          */
-        function move(popover, placement, align, rect, triangle, mouserelative_x, mouserelative_y, event) {
+        function move(popover, placement, align, rect, triangle) {
           var popoverRect = getBoundingClientRect(popover[0]);
           var top, left;
-		  
-		  var rect = JSON.parse(JSON.stringify(rect)); //effective clone.
-		  if(mouserelative_x)
-		  {
-			rect.left = event.pageX;
-			rect.right = event.pageX;
-			rect.width = 0;
-		  }
-		  if(mouserelative_y)
-		  {
-			rect.top = event.pageY;
-			rect.bottom = event.pageY;
-			rect.height = 0;
-		  }
             
           var positionX = function() {
             if (align === 'center') {
-              return Math.round(rect.left + rect.width/2 - popoverRect.width/2);
+              return Math.round(localRect.left + localRect.width/2 - popoverRect.width/2);
             } else if(align === 'right') {
               return rect.right - popoverRect.width;
             }
@@ -282,6 +273,37 @@
           }
         }
 
+        /**
+         * Adjust a rect accordingly to the given x and y mouse positions.
+         *
+         * @param rect {ClientRect} The rect to be adjusted.
+         */
+        function adjustRect(rect, adjustX, adjustY, ev) {
+          // if pageX or pageY is defined we need to lock the popover to the given
+          // x and y position.
+          // clone the rect, so we can manipulate its properties.
+          var localRect = {
+            bottom: rect.bottom,
+            height: rect.height,
+            left: rect.left,
+            right: rect.right,
+            top: rect.top,
+            width: rect.width
+          };
+
+          if (adjustX) {
+            localRect.left = ev. pageX;
+            localRect.right = ev.pageX;
+            localRect.width = 0;
+          }
+
+          if (adjustY) {
+            localRect.top = ev.pageY;
+            localRect.bottom = ev.pageY;
+            localRect.height = 0;
+          }
+        }
+
         function getBoundingClientRect(elm) {
           var w = window;
           var doc = document.documentElement || document.body.parentNode || document.body;
@@ -302,6 +324,16 @@
             };
           }
           return rect;
+        }
+
+        function toBoolean(value) {
+          if (value && value.length !== 0) {
+            var v = ("" + value).toLowerCase();
+            value = (v == 'true');
+          } else {
+            value = false;
+          }
+          return value;
         }
 
         /**

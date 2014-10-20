@@ -20,6 +20,16 @@
     </div>
   </script>
 
+  <script type="text/ng-template" id="close">
+    <div class="triangle"></div>
+    <div class="ns-popover-tooltip">
+        <ul>
+            <li ng-repeat="item in items"><a>{{item.name}}</a></li>
+        </ul>
+      <button ng-click="hidePopover()">Close</button>
+    </div>
+  </script>
+
   <script type="text/ng-template" id="tooltip">
     <div class="triangle"></div>
     <div class="ns-popover-tooltip">
@@ -34,7 +44,7 @@
   <h1> Menus </h1>
   <article>
     <p>
-      <b>nsPopover</b> could be used as a simple dropdown menu. You can use the built-in "ns-popover-list-theme" to
+      <b>nsPopover</b> could be used as a simple dropdown menu. You can use the built-in <b>ns-popover-list-theme</b> to
       style the popover as a dropdown or create a custom one.
     </p>
 
@@ -57,8 +67,8 @@
   <h1> Tooltip </h1>
   <article>
     <p>
-      <b>nsPopover</b> could be used as a simple dropdown menu. You can use the built-in "ns-popover-list-theme" to
-      style the popover as a dropdown or create a custom one.
+      <b>nsPopover</b> could be used as a simple dropdown menu. You can use the built-in <b>ns-popover-list-theme</b>
+      to style the popover as a dropdown or create a custom one.
     </p>
 
     <button ns-popover
@@ -76,6 +86,24 @@
       Hover me
     </a>
   </article>
+
+  <h1> Hide on click </h1>
+  <article>
+      <p>
+          <b>nsPopover</b> hide when it is clicked by default, but this behavior could be changed by set
+          the <b>ns-popover-hide-on-click</b> property to false. The popover above is closed only when the
+          Close button is clicked.
+      </p>
+
+      <button ns-popover
+            ns-popover-template="close"
+            ns-popover-trigger="click"
+            ns-popover-theme="ns-popover-tooltip-theme"
+            ns-popover-hide-on-click="false"
+            ns-popover-timeout="1">
+        Click Me
+    </button>
+</article>
 </section>
 </body>
 </html>

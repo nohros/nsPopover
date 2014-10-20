@@ -125,14 +125,15 @@ the possible combinations of [position] and [alignment].
 
 ### ``ns-popover-hide-on-click {Boolean}``
 
-Whether or not to hide the popover when it is clicked on, default: ``true``.
+The ``ns-popover-hide-on-click`` specify whether to close the popover when clicking on it, default: ``true``. This
+allows for element-targeted closing of the popover (e.g via a close button within the popover element).
 
 ### ``ns-popover-mouse-relative {{String}}``
 
 Locks the position relative to the mouse. The following are possible values:
- * x - Constraints the x axis to follow the mouse
- * y - Constraints the y axis to follow the mouse
- * xy - Constraints both the x and y axis to follow the mouse
+ * x - Constraints the x axis to follow the mouse.
+ * y - Constraints the y axis to follow the mouse.
+ * xy - Constraints both the x and y axis to follow the mouse.
 
 ### Programmatic Hiding of the Popover
 
