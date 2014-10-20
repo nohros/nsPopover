@@ -91,7 +91,7 @@
           }
         };
 
-        var $container = $el(options.container);
+        var $container = $document[0].querySelector(options.container);
         if (!$container.length) {
           $container = $document.find('body');
         }
