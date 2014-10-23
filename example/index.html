@@ -24,7 +24,7 @@
     <div class="triangle"></div>
     <div class="ns-popover-tooltip">
         <ul>
-            <li ng-repeat="item in items"><a>{{item.name}}</a></li>
+            <li ng-repeat="item in items"><input type="checkbox">{{item.name}}</li>
         </ul>
       <button ng-click="hidePopover()">Close</button>
     </div>
@@ -103,7 +103,27 @@
             ns-popover-timeout="1">
         Click Me
     </button>
-</article>
+  </article>
+
+    <h1> Track mouse position </h1>
+    <article>
+        <p>
+            <b>nsPopover</b> could be displayed at the same point the mouse is positioned, which could be used
+            to create popver that acts as a context menu. To enabled this feature you just need to specify
+            <b>ns-popover-mouse-relative</b> property to the axis to be tracked. The popover above is displayed
+            at the same x and y position of the mouse, when clicked.
+        </p>
+
+        <div class="hover"
+          ns-popover
+          ns-popover-template="menu"
+          ns-popover-trigger="click"
+          ns-popover-theme="ns-popover-list-theme"
+          ns-popover-timeout="1"
+          ns-popover-mouse-relative="xy">
+            Click anywhere inside me
+        </div>
+    </article>
 </section>
 </body>
 </html>

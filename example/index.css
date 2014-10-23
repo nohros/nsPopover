@@ -60,3 +60,16 @@ a {
 .ns-popover-tooltip a {
   text-decoration: none;
 }
+
+div.hover {
+  background-color: #0096d6;
+  border: lightgray solid 1px;
+  width: 200px;
+  cursor: move;
+  padding: 50px;
+  text-align: center;
+  color:white;
+  border-radius: 4px;
+  cursor: pointer;
+  cursor: hand;
+}

@@ -184,7 +184,7 @@
           // If the mouse-relative options is specified we need to adjust the
           // element client rect to the current mouse coordinates.
           if (options.mouseRelative) {
-            elmRect = adjustRect(elmRect, options.mouseRelativeX, options.mouseRelativeY);
+            elmRect = adjustRect(elmRect, options.mouseRelativeX, options.mouseRelativeY, e);
           }
 
           move($popover, placement_, align_, elmRect, $triangle);
@@ -228,7 +228,7 @@
             
           var positionX = function() {
             if (align === 'center') {
-              return Math.round(localRect.left + localRect.width/2 - popoverRect.width/2);
+              return Math.round(rect.left + rect.width/2 - popoverRect.width/2);
             } else if(align === 'right') {
               return rect.right - popoverRect.width;
             }
@@ -292,7 +292,7 @@
           };
 
           if (adjustX) {
-            localRect.left = ev. pageX;
+            localRect.left = ev.pageX;
             localRect.right = ev.pageX;
             localRect.width = 0;
           }
@@ -302,6 +302,8 @@
             localRect.bottom = ev.pageY;
             localRect.height = 0;
           }
+
+          return localRect;
         }
 
         function getBoundingClientRect(elm) {
