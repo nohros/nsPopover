@@ -14,6 +14,7 @@
       theme: 'ns-popover-list-theme',
       plain: 'false',
       trigger: 'click',
+      angularEvent: '',
       container: 'body',
       placement: 'bottom|left',
       timeout: 1.5,
@@ -35,7 +36,7 @@
       }];
   });
 
-  module.directive('nsPopover', ['nsPopover', '$timeout', '$templateCache', '$q', '$http', '$compile', '$document', function(nsPopover, $timeout, $templateCache, $q, $http, $compile, $document) {
+  module.directive('nsPopover', ['nsPopover', '$rootScope', '$timeout', '$templateCache', '$q', '$http', '$compile', '$document', function(nsPopover, $rootScope, $timeout, $templateCache, $q, $http, $compile, $document) {
     return {
       restrict: 'A',
       scope: true,
@@ -47,8 +48,9 @@
           theme: attrs.nsPopoverTheme || defaults.theme,
           plain: toBoolean(attrs.nsPopoverPlain || defaults.plain),
           trigger: attrs.nsPopoverTrigger || defaults.trigger,
+          angularEvent: attrs.nsPopoverAngularEvent || defaults.angularEvent,
           container: attrs.nsPopoverContainer || defaults.container,
-          placement: attrs.nsPopoverPlacement || defaults.placement ,
+          placement: attrs.nsPopoverPlacement || defaults.placement,
           timeout: attrs.nsPopoverTimeout || defaults.timeout,
           hideOnClick: toBoolean(attrs.nsPopoverHideOnClick || defaults.hideOnClick),
           mouseRelative: attrs.nsPopoverMouseRelative
@@ -169,33 +171,54 @@
 
           $container.append($popover);
         });
+        
+        if (options.angularEvent) {
+          $rootScope.$on(options.angularEvent, function(){
+            hider_.cancel();
 
-        elm.on(options.trigger, function(e) {
-          e.preventDefault();
+            $popover.css('display', 'block');
 
-          hider_.cancel();
+            // position the popover accordingly to the defined placement around the
+            // |elm|.
+            var elmRect = getBoundingClientRect(elm[0]);
 
-          $popover.css('display', 'block');
+            move($popover, placement_, align_, elmRect, $triangle);
 
-          // position the popover accordingly to the defined placement around the
-          // |elm|.
-          var elmRect = getBoundingClientRect(elm[0]);
-
-          // If the mouse-relative options is specified we need to adjust the
-          // element client rect to the current mouse coordinates.
-          if (options.mouseRelative) {
-            elmRect = adjustRect(elmRect, options.mouseRelativeX, options.mouseRelativeY, e);
-          }
-
-          move($popover, placement_, align_, elmRect, $triangle);
-
-          if (options.hideOnClick) {
-            // Hide the popover without delay on click events.
-            $popover.on('click', function () {
-              hider_.hide($popover, 0);
-            });
-          }
-        });
+            if (options.hideOnClick) {
+              // Hide the popover without delay on click events.
+              $popover.on('click', function () {
+                hider_.hide($popover, 0);
+              });
+            }
+          });          
+        } else {
+          elm.on(options.trigger, function(e) {
+            e.preventDefault();
+  
+            hider_.cancel();
+  
+            $popover.css('display', 'block');
+  
+            // position the popover accordingly to the defined placement around the
+            // |elm|.
+            var elmRect = getBoundingClientRect(elm[0]);
+  
+            // If the mouse-relative options is specified we need to adjust the
+            // element client rect to the current mouse coordinates.
+            if (options.mouseRelative) {
+              elmRect = adjustRect(elmRect, options.mouseRelativeX, options.mouseRelativeY, e);
+            }
+  
+            move($popover, placement_, align_, elmRect, $triangle);
+  
+            if (options.hideOnClick) {
+              // Hide the popover without delay on click events.
+              $popover.on('click', function () {
+                hider_.hide($popover, 0);
+              });
+            }
+          });
+        }
 
         elm
           .on('mouseout', function() {
