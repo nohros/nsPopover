@@ -90,7 +90,7 @@
           }
         };
 
-        var $container = $document[0].querySelector(options.container);
+        var $container = $document.find(options.container);
         if (!$container.length) {
           $container = $document.find('body');
         }
