@@ -105,25 +105,54 @@
     </button>
   </article>
 
-    <h1> Track mouse position </h1>
-    <article>
-        <p>
-            <b>nsPopover</b> could be displayed at the same point the mouse is positioned, which could be used
-            to create popver that acts as a context menu. To enabled this feature you just need to specify
-            <b>ns-popover-mouse-relative</b> property to the axis to be tracked. The popover above is displayed
-            at the same x and y position of the mouse, when clicked.
-        </p>
+  <h1> Track mouse position </h1>
+  <article>
+      <p>
+          <b>nsPopover</b> could be displayed at the same point the mouse is positioned, which could be used
+          to create popver that acts as a context menu. To enabled this feature you just need to specify
+          <b>ns-popover-mouse-relative</b> property to the axis to be tracked. The popover above is displayed
+          at the same x and y position of the mouse, when clicked.
+      </p>
 
-        <div class="hover"
-          ns-popover
-          ns-popover-template="menu"
-          ns-popover-trigger="click"
-          ns-popover-theme="ns-popover-list-theme"
-          ns-popover-timeout="1"
-          ns-popover-mouse-relative="xy">
-            Click anywhere inside me
-        </div>
-    </article>
+      <div class="hover"
+        ns-popover
+        ns-popover-template="menu"
+        ns-popover-trigger="click"
+        ns-popover-theme="ns-popover-list-theme"
+        ns-popover-timeout="1"
+        ns-popover-mouse-relative="xy">
+          Click anywhere inside me
+      </div>
+  </article>
+
+  <h1> Delay popup </h1>
+  <article>
+      <p>
+          <b>nsPopover</b> can create a delay on the popup element.
+      </p>
+
+      <button ns-popover
+            ns-popover-template="tooltip"
+            ns-popover-trigger="mouseenter"
+            ns-popover-theme="ns-popover-tooltip-theme"
+            ns-popover-placement="right"
+            ns-popover-timeout="0.2"
+            ns-popover-popup-delay="0.7">
+        Hover and wait
+      </button>
+      <p/>
+      <div class="hover"
+        ns-popover
+        ns-popover-template="menu"
+        ns-popover-trigger="click"
+        ns-popover-theme="ns-popover-list-theme"
+        ns-popover-timeout="1"
+        ns-popover-placement="right"
+        ns-popover-timeout="0.2"
+        ns-popover-popup-delay="0.7">
+          Click and wait
+      </div>
+  </article>
 </section>
 </body>
 </html>

@@ -19,7 +19,8 @@
       placement: 'bottom|left',
       timeout: 1.5,
       hideOnClick: 'true',
-      mouseRelative: ''
+      mouseRelative: '',
+      popupDelay: 0
     };
 
     this.setDefaults = function (newDefaults) {
@@ -53,13 +54,53 @@
           placement: attrs.nsPopoverPlacement || defaults.placement,
           timeout: attrs.nsPopoverTimeout || defaults.timeout,
           hideOnClick: toBoolean(attrs.nsPopoverHideOnClick || defaults.hideOnClick),
-          mouseRelative: attrs.nsPopoverMouseRelative
+          mouseRelative: attrs.nsPopoverMouseRelative,
+          popupDelay: attrs.nsPopoverPopupDelay || defaults.popupDelay
         };
 
         if (options.mouseRelative) {
           options.mouseRelativeX = options.mouseRelative.indexOf('x') !== -1;
           options.mouseRelativeY = options.mouseRelative.indexOf('y') !== -1;
         }
+
+        var displayer_ = {
+          id_: undefined,
+
+          display: function(popover, delay, e) {
+            $timeout.cancel(displayer_.id_);
+
+            if (!isDef(delay)) {
+              delay = 0;
+            }
+
+            displayer_.id_ = $timeout(function() {
+              $popover.css('display', 'block');
+
+              // position the popover accordingly to the defined placement around the
+              // |elm|.
+              var elmRect = getBoundingClientRect(elm[0]);
+
+              // If the mouse-relative options is specified we need to adjust the
+              // element client rect to the current mouse coordinates.
+              if (options.mouseRelative) {
+                elmRect = adjustRect(elmRect, options.mouseRelativeX, options.mouseRelativeY, e);
+              }
+
+              move($popover, placement_, align_, elmRect, $triangle);
+
+              if (options.hideOnClick) {
+                // Hide the popover without delay on click events.
+                $popover.on('click', function () {
+                  hider_.hide($popover, 0);
+                });
+              }
+            }, delay*1000);
+          },
+
+          cancel: function() {
+            $timeout.cancel(displayer_.id_);
+          }
+        };
 
         var hider_ = {
           id_: undefined,
@@ -81,6 +122,7 @@
             }
 
             hider_.id_ = $timeout(function() {
+              displayer_.cancel();
               popover.css('display', 'none');
             }, delay*1000);
           },
@@ -171,52 +213,17 @@
 
           $container.append($popover);
         });
-        
+
         if (options.angularEvent) {
-          $rootScope.$on(options.angularEvent, function(){
+          $rootScope.$on(options.angularEvent, function() {
             hider_.cancel();
-
-            $popover.css('display', 'block');
-
-            // position the popover accordingly to the defined placement around the
-            // |elm|.
-            var elmRect = getBoundingClientRect(elm[0]);
-
-            move($popover, placement_, align_, elmRect, $triangle);
-
-            if (options.hideOnClick) {
-              // Hide the popover without delay on click events.
-              $popover.on('click', function () {
-                hider_.hide($popover, 0);
-              });
-            }
-          });          
+            displayer_.display($popover, options.popupDelay);
+          });
         } else {
           elm.on(options.trigger, function(e) {
             e.preventDefault();
-  
             hider_.cancel();
-  
-            $popover.css('display', 'block');
-  
-            // position the popover accordingly to the defined placement around the
-            // |elm|.
-            var elmRect = getBoundingClientRect(elm[0]);
-  
-            // If the mouse-relative options is specified we need to adjust the
-            // element client rect to the current mouse coordinates.
-            if (options.mouseRelative) {
-              elmRect = adjustRect(elmRect, options.mouseRelativeX, options.mouseRelativeY, e);
-            }
-  
-            move($popover, placement_, align_, elmRect, $triangle);
-  
-            if (options.hideOnClick) {
-              // Hide the popover without delay on click events.
-              $popover.on('click', function () {
-                hider_.hide($popover, 0);
-              });
-            }
+            displayer_.display($popover, options.popupDelay, e);
           });
         }
 
@@ -248,7 +255,7 @@
         function move(popover, placement, align, rect, triangle) {
           var popoverRect = getBoundingClientRect(popover[0]);
           var top, left;
-            
+
           var positionX = function() {
             if (align === 'center') {
               return Math.round(rect.left + rect.width/2 - popoverRect.width/2);
