@@ -18,7 +18,7 @@
       container: 'body',
       placement: 'bottom|left',
       timeout: 1.5,
-      hideOnClick: 'none',
+      hideOnClick: 'true',
       mouseRelative: ''
     };
 
@@ -52,7 +52,7 @@
           container: attrs.nsPopoverContainer || defaults.container,
           placement: attrs.nsPopoverPlacement || defaults.placement,
           timeout: attrs.nsPopoverTimeout || defaults.timeout,
-          hideOnClick: attrs.nsPopoverHideOnClick || defaults.hideOnClick,
+          hideOnClick: toBoolean(attrs.nsPopoverHideOnClick || defaults.hideOnClick),
           mouseRelative: attrs.nsPopoverMouseRelative
         };
 
@@ -176,13 +176,7 @@
           $rootScope.$on(options.angularEvent, function(){
             hider_.cancel();
 
-            if (options.hideOnClick == "inside" || options.hideOnClick == "outside") {
-              if ($popover.css('display') == 'none') {
-                $popover.css('display', 'block');
-              } else {
-                $popover.css('display', 'none');
-              }
-            }
+            $popover.css('display', 'block');
 
             // position the popover accordingly to the defined placement around the
             // |elm|.
@@ -190,17 +184,10 @@
 
             move($popover, placement_, align_, elmRect, $triangle);
 
-            if (options.hideOnClick == "inside") {
+            if (options.hideOnClick) {
+              // Hide the popover without delay on click events.
               $popover.on('click', function () {
                 hider_.hide($popover, 0);
-              });
-            } else if (options.hideOnClick == "outside") {
-              angular.element('html').on('click', function (e) {
-                if (elm.is(e.target) || elm.has(e.target).length > 0) {
-                  return;
-                } else if (!$popover.is(e.target) && $popover.has(e.target).length === 0) {
-                  hider_.hide($popover, 0);
-                }
               });
             }
           });          
@@ -210,13 +197,7 @@
   
             hider_.cancel();
   
-            if (options.hideOnClick == "inside" || options.hideOnClick == "outside") {
-              if ($popover.css('display') == 'none') {
-                $popover.css('display', 'block');
-              } else {
-                $popover.css('display', 'none');
-              }
-            }
+            $popover.css('display', 'block');
   
             // position the popover accordingly to the defined placement around the
             // |elm|.
@@ -230,17 +211,10 @@
   
             move($popover, placement_, align_, elmRect, $triangle);
   
-            if (options.hideOnClick == "inside") {
+            if (options.hideOnClick) {
+              // Hide the popover without delay on click events.
               $popover.on('click', function () {
                 hider_.hide($popover, 0);
-              });
-            } else if (options.hideOnClick == "outside") {
-              angular.element('html').on('click', function (e) {
-                if (elm.is(e.target) || elm.has(e.target).length > 0) {
-                  return;
-                } else if (!$popover.is(e.target) && $popover.has(e.target).length === 0) {
-                  hider_.hide($popover, 0);
-                }
               });
             }
           });
