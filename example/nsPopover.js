@@ -18,7 +18,9 @@
       container: 'body',
       placement: 'bottom|left',
       timeout: 1.5,
-      hideOnClick: 'true',
+      hideOnInsideClick: false,
+      hideOnOutsideClick: true,
+      hideOnButtonClick: true,
       mouseRelative: '',
       popupDelay: 0
     };
@@ -53,7 +55,9 @@
           container: attrs.nsPopoverContainer || defaults.container,
           placement: attrs.nsPopoverPlacement || defaults.placement,
           timeout: attrs.nsPopoverTimeout || defaults.timeout,
-          hideOnClick: toBoolean(attrs.nsPopoverHideOnClick || defaults.hideOnClick),
+          hideOnInsideClick: toBoolean(attrs.nsPopoverHideOnInsideClick || defaults.hideOnInsideClick),
+          hideOnOutsideClick: toBoolean(attrs.nsPopoverHideOnOutsideClick || defaults.hideOnOutsideClick),
+          hideOnButtonClick: toBoolean(attrs.nsPopoverHideOnButtonClick || defaults.hideOnButtonClick),
           mouseRelative: attrs.nsPopoverMouseRelative,
           popupDelay: attrs.nsPopoverPopupDelay || defaults.popupDelay
         };
@@ -74,6 +78,7 @@
             }
 
             displayer_.id_ = $timeout(function() {
+              $popover.isOpen = true;
               $popover.css('display', 'block');
 
               // position the popover accordingly to the defined placement around the
@@ -88,10 +93,50 @@
 
               move($popover, placement_, align_, elmRect, $triangle);
 
-              if (options.hideOnClick) {
-                // Hide the popover without delay on click events.
+              if (options.hideOnInsideClick) {
+                // Hide the popover without delay on the popover click events.
                 $popover.on('click', function () {
-                  hider_.hide($popover, 0);
+                  if ($popover.isOpen) {
+                    hider_.hide($popover, 0);
+                  }
+                });
+              }
+              if (options.hideOnOutsideClick) {
+                // Hide the popover without delay on outside click events.
+                $document.on('click', function (e) {
+                  if ($popover.isOpen && e.target !== elm[0]) {
+                    var id = $popover[0].id;
+                    if (!isInPopover(e.target)) {
+                      hider_.hide($popover, 0);
+                    }
+                  }
+
+                  function isInPopover(el) {
+                    if (el.id === id) {
+                      return true;
+                    }
+
+                    var parent = angular.element(el).parent()[0];
+
+                    if (!parent) {
+                      return false;
+                    }
+
+                    if (parent.id === id) {
+                      return true;
+                    }
+                    else {
+                      return isInPopover(parent);
+                    }
+                  }
+                });
+              }
+              if (options.hideOnButtonClick) {
+                // Hide the popover without delay on the button click events.
+                elm.on('click', function () {
+                  if ($popover.isOpen) {
+                    hider_.hide($popover, 0);
+                  }
                 });
               }
             }, delay*1000);
@@ -122,6 +167,7 @@
             }
 
             hider_.id_ = $timeout(function() {
+              $popover.isOpen = false;
               displayer_.cancel();
               popover.css('display', 'none');
             }, delay*1000);
