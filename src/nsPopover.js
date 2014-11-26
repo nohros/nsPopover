@@ -95,49 +95,15 @@
 
               if (options.hideOnInsideClick) {
                 // Hide the popover without delay on the popover click events.
-                $popover.on('click', function () {
-                  if ($popover.isOpen) {
-                    hider_.hide($popover, 0);
-                  }
-                });
+                $popover.on('click', insideClickHandler);
               }
               if (options.hideOnOutsideClick) {
                 // Hide the popover without delay on outside click events.
-                $document.on('click', function (e) {
-                  if ($popover.isOpen && e.target !== elm[0]) {
-                    var id = $popover[0].id;
-                    if (!isInPopover(e.target)) {
-                      hider_.hide($popover, 0);
-                    }
-                  }
-
-                  function isInPopover(el) {
-                    if (el.id === id) {
-                      return true;
-                    }
-
-                    var parent = angular.element(el).parent()[0];
-
-                    if (!parent) {
-                      return false;
-                    }
-
-                    if (parent.id === id) {
-                      return true;
-                    }
-                    else {
-                      return isInPopover(parent);
-                    }
-                  }
-                });
+                $document.on('click', outsideClickHandler);
               }
               if (options.hideOnButtonClick) {
                 // Hide the popover without delay on the button click events.
-                elm.on('click', function () {
-                  if ($popover.isOpen) {
-                    hider_.hide($popover, 0);
-                  }
-                });
+                elm.on('click', buttonClickHandler);
               }
             }, delay*1000);
           },
@@ -167,6 +133,9 @@
             }
 
             hider_.id_ = $timeout(function() {
+              $popover.off('click', insideClickHandler);
+              $document.off('click', outsideClickHandler);
+              elm.off('click', buttonClickHandler);
               $popover.isOpen = false;
               displayer_.cancel();
               popover.css('display', 'none');
@@ -431,6 +400,46 @@
           }
 
           return $templateCache.get(template) || $http.get(template, { cache : true });
+        }
+
+        function insideClickHandler() {
+          if ($popover.isOpen) {
+            hider_.hide($popover, 0);
+          }
+        }
+
+        function outsideClickHandler(e) {
+          if ($popover.isOpen && e.target !== elm[0]) {
+            var id = $popover[0].id;
+            if (!isInPopover(e.target)) {
+              hider_.hide($popover, 0);
+            }
+          }
+
+          function isInPopover(el) {          
+            if (el.id === id) {
+              return true;
+            }
+
+            var parent = angular.element(el).parent()[0];
+
+            if (!parent) {
+              return false;
+            }
+
+            if (parent.id === id) {
+              return true;
+            }
+            else {
+              return isInPopover(parent);
+            }
+          }
+        }
+      
+        function buttonClickHandler() {
+          if ($popover.isOpen) {
+            hider_.hide($popover, 0);
+          }
         }
       }
     };
