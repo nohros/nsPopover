@@ -135,6 +135,13 @@ Locks the position relative to the mouse. The following are possible values:
  * y - Constraints the y axis to follow the mouse.
  * xy - Constraints both the x and y axis to follow the mouse.
 
+### ``ns-popover-modal {Boolean/String}``
+
+The ``ns-popover-modal`` specifies the group of popovers which should be closed when this instance is shown. This allows
+ * false - Other popovers will not be hidden (default)
+ * true - All popover instances will be hidden when this one instance is shown
+ * String - All popovers with this modal group specified will be hidden when this instance is shown
+
 ### Programmatic Hiding of the Popover
 
 Register the ``hidePopover()`` function against a ``ng-click`` directive to hide the popover when a specific element is clicked (e.g. a close button):

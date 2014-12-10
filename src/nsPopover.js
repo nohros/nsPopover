@@ -20,7 +20,8 @@
       timeout: 1.5,
       hideOnClick: 'true',
       mouseRelative: '',
-      popupDelay: 0
+      popupDelay: 0,
+      modal: false
     };
 
     this.setDefaults = function (newDefaults) {
@@ -55,7 +56,8 @@
           timeout: attrs.nsPopoverTimeout || defaults.timeout,
           hideOnClick: toBoolean(attrs.nsPopoverHideOnClick || defaults.hideOnClick),
           mouseRelative: attrs.nsPopoverMouseRelative,
-          popupDelay: attrs.nsPopoverPopupDelay || defaults.popupDelay
+          popupDelay: attrs.nsPopoverPopupDelay || defaults.popupDelay,
+          modal: attrs.nsPopoverModal || defaults.modal
         };
 
         if (options.mouseRelative) {
@@ -71,6 +73,11 @@
 
             if (!isDef(delay)) {
               delay = 0;
+            }
+            
+            //hide any popovers being displayed
+            if (options.modal){
+             $rootScope.$broadcast('hidePopover', options.modal);   
             }
 
             displayer_.id_ = $timeout(function() {
@@ -186,7 +193,13 @@
           scope.hidePopover = function() {
             hider_.hide($popover, 0);
           };
-
+            
+          scope.$on('hidePopover', function(ev, modal){
+              if (options.modal === modal) {
+                scope.hidePopover()
+              }
+          });
+            
           $popover
             .css('position', 'absolute')
             .css('display', 'none');
