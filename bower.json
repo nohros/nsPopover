@@ -21,6 +21,7 @@
     "node_modules",
     "bower_components",
     "vendor",
+    "example",
     "test",
     "tests",
     ".idea"
