@@ -62,6 +62,20 @@ angular
 
 ``nsPopover`` defines a simple set of attributes that can be used to customize the popover behavior.
 
+### `ns-popover {Boolean}`
+
+The popover will show by default but ff you set `ns-popover` attribute equal to
+a scope variable whose value is false, the popover will not be displayed. IE:
+
+```
+// In controller:
+$scope.displayPopover = false;
+
+// In HTML:
+<div ns-popover="displayPopover"></div>
+```
+
+
 ### ``ns-popover-template {String}``
 
 The id of the template that contains the popover content. The content will be loaded through the
