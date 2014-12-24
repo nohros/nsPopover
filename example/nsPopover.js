@@ -22,7 +22,8 @@
       hideOnOutsideClick: true,
       hideOnButtonClick: true,
       mouseRelative: '',
-      popupDelay: 0
+      popupDelay: 0,
+      modal: false
     };
 
     this.setDefaults = function (newDefaults) {
@@ -59,7 +60,8 @@
           hideOnOutsideClick: toBoolean(attrs.nsPopoverHideOnOutsideClick || defaults.hideOnOutsideClick),
           hideOnButtonClick: toBoolean(attrs.nsPopoverHideOnButtonClick || defaults.hideOnButtonClick),
           mouseRelative: attrs.nsPopoverMouseRelative,
-          popupDelay: attrs.nsPopoverPopupDelay || defaults.popupDelay
+          popupDelay: attrs.nsPopoverPopupDelay || defaults.popupDelay,
+          modal: attrs.nsPopoverModal || defaults.modal
         };
 
         if (options.mouseRelative) {
@@ -71,10 +73,20 @@
           id_: undefined,
 
           display: function(popover, delay, e) {
+            // Disable popover if ns-popover value is false
+            if (scope[attrs.nsPopover] === false) {
+              return;
+            }
+
             $timeout.cancel(displayer_.id_);
 
             if (!isDef(delay)) {
               delay = 0;
+            }
+            
+            //hide any popovers being displayed
+            if (options.modal){
+             $rootScope.$broadcast('hidePopover', options.modal);   
             }
 
             displayer_.id_ = $timeout(function() {
@@ -201,7 +213,13 @@
           scope.hidePopover = function() {
             hider_.hide($popover, 0);
           };
-
+            
+          scope.$on('hidePopover', function(ev, modal){
+              if (options.modal === modal) {
+                scope.hidePopover();
+              }
+          });
+            
           $popover
             .css('position', 'absolute')
             .css('display', 'none');

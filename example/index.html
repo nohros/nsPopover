@@ -155,6 +155,26 @@
           Click and wait
       </div>
   </article>
+
+  <br>
+
+  <h1>Disable/Enable Popover</h1>
+  <article ng-init="displayPopover = true">
+    <a ns-popover="displayPopover"
+       ns-popover-placement="top"
+       ns-popover-template="menu"
+       ns-popover-trigger="mouseenter"
+       ns-popover-theme="ns-popover-list-theme"
+       ns-popover-timeout="0">
+      Hover me
+    </a>
+
+    <button ng-click="displayPopover = !displayPopover"
+            ng-bind="displayPopover ? 'Turn off popover' : 'Turn on popover'">
+    </button>
+  </article>
+
+  <br>
 </section>
 </body>
 </html>
