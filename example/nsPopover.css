@@ -82,7 +82,7 @@
       position: absolute; }
     /* line 86, ../sass/ns-popover.scss */
     .ns-popover-tooltip-theme.ns-popover-bottom-placement .triangle:after {
-      border-bottom-color: white;
+      border-bottom-color: #fff;
       border-top-width: 0;
       top: 1px;
       margin-left: -10px; }
@@ -110,7 +110,7 @@
       position: absolute; }
     /* line 72, ../sass/ns-popover.scss */
     .ns-popover-tooltip-theme.ns-popover-top-placement .triangle:after {
-      border-top-color: white;
+      border-top-color: #fff;
       border-bottom-width: 0;
       bottom: 1px;
       margin-left: -10px; }
@@ -138,7 +138,7 @@
       position: absolute; }
     /* line 114, ../sass/ns-popover.scss */
     .ns-popover-tooltip-theme.ns-popover-right-placement .triangle:after {
-      border-right-color: white;
+      border-right-color: #fff;
       border-left-width: 0;
       left: 1px;
       bottom: -10px; }
@@ -166,7 +166,7 @@
       position: absolute; }
     /* line 100, ../sass/ns-popover.scss */
     .ns-popover-tooltip-theme.ns-popover-left-placement .triangle:after {
-      border-left-color: white;
+      border-left-color: #fff;
       border-right-width: 0;
       right: 1px;
       bottom: -10px; }
@@ -182,3 +182,5 @@
   /* line 205, ../sass/ns-popover.scss */
   .ns-popover-tooltip-theme.ns-popover-bottom-align .ns-popover-tooltip {
     margin-bottom: 0; }
+
+/*# sourceMappingURL=nsPopover.css.map */

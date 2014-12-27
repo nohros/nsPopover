@@ -211,7 +211,7 @@
             
           scope.$on('hidePopover', function(ev, modal){
               if (options.modal === modal) {
-                scope.hidePopover()
+                scope.hidePopover();
               }
           });
             
