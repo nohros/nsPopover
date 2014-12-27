@@ -205,6 +205,8 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', ['clean', 'sass:build', 'jshint', 'copy:js', 'copy:example']);
 
+  grunt.registerTask('js', ['clean', 'jshint', 'copy:js', 'copy:example']);
+
   /**
    * The 'compile' task gets your app ready for deployment by concatenating and
    * minifying your code.

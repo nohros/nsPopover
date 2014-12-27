@@ -73,6 +73,11 @@
           id_: undefined,
 
           display: function(popover, delay, e) {
+            // Disable popover if ns-popover value is false
+            if (scope[attrs.nsPopover] === false) {
+              return;
+            }
+
             $timeout.cancel(displayer_.id_);
 
             if (!isDef(delay)) {
