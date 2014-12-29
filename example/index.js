@@ -9,6 +9,10 @@ angular
     }, {
       name: "Something else here"
     }];
+
+    $scope.shouldDisplayPopover = function() {
+      return $scope.displayPopover;
+    }
   })
 
   .directive('viewportWidth', function() {
