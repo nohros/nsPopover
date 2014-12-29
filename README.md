@@ -75,7 +75,6 @@ $scope.displayPopover = false;
 <div ns-popover="displayPopover"></div>
 ```
 
-
 ### ``ns-popover-template {String}``
 
 The id of the template that contains the popover content. The content will be loaded through the
@@ -149,12 +148,10 @@ Locks the position relative to the mouse. The following are possible values:
  * y - Constraints the y axis to follow the mouse.
  * xy - Constraints both the x and y axis to follow the mouse.
 
-### ``ns-popover-modal {Boolean/String}``
+### ``ns-popover-group {String}``
 
-The ``ns-popover-modal`` specifies the group of popovers which should be closed when this instance is shown. This allows
- * false - Other popovers will not be hidden (default)
- * true - All popover instances will be hidden when this one instance is shown
- * String - All popovers with this modal group specified will be hidden when this instance is shown
+The ``ns-popover-group`` specifies the group of popovers which should be closed when this instance is shown. This allows
+the construction of popovers that acts like a modal dialog.
 
 ### Programmatic Hiding of the Popover
 
