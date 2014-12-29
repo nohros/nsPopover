@@ -4,7 +4,6 @@
   var module = angular.module('nsPopover', []);
   var $el = angular.element;
   var isDef = angular.isDefined;
-  var forEach = angular.forEach;
   var $popovers = [];
   var globalId = 0;
 
@@ -24,10 +23,6 @@
       mouseRelative: '',
       popupDelay: 0,
       modal: false
-    };
-
-    this.setDefaults = function (newDefaults) {
-      angular.extend(defaults, newDefaults);
     };
 
     this.$get = [
