@@ -116,15 +116,12 @@ Position | Alignment | Description
 top | center | The popover will be positioned above the triggering element and its horizontal center will be aligned with the horizontal center of the triggering element.
 top | left | The popover will be positioned above the triggering element and its left side will be aligned with the left side of the triggering element.
 top | right | The popover will be positioned above the triggering element and its right side will be aligned with the right side of the triggering element.
-
 bottom | center | The popover will be positioned on the below the triggering element and its horizontal center will be aligned with the horizontal center of the triggering element.
 bottom | left | The popover will be positioned below the triggering element and its left side will be aligned with the left side of the triggering element.
 bottom | right | The popover will be positioned below the triggering element and its right side will be aligned with the right side of the triggering element.
-
 left | center | The popover will be positioned on the left side of the triggering element and its vertical center will be aligned with vertical center of the triggering element.
 left | top | The popover will be positioned on the left side of the triggering element and its top will be aligned with the top of the triggering element.
 left | bottom | The popover will be positioned on the left side of the triggering element and its bottom will be aligned with the bottom of the triggering element.
-
 right | center | The popover will be positioned on the right side of the triggering element and its vertical center will be aligned with vertical center of the triggering element.
 right | top | The popover will be positioned on the right side of the triggering element and its top will be aligned with the top of the triggering element.
 right | bottom | The popover will be positioned on the right side of the triggering element and its bottom will be aligned with the bottom of the triggering element.
