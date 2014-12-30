@@ -21,8 +21,7 @@
       hideOnOutsideClick: true,
       hideOnButtonClick: true,
       mouseRelative: '',
-      popupDelay: 0,
-      modal: false
+      popupDelay: 0
     };
 
     this.$get = [
@@ -35,18 +34,8 @@
       }];
   });
 
-  module.directive('nsPopover', [
-    'nsPopover',
-    '$rootScope',
-    '$timeout',
-    '$templateCache',
-    '$q',
-    '$http',
-    '$compile',
-    '$document',
-    '$parse',
-    function(nsPopover, $rootScope, $timeout, $templateCache, $q, $http,
-             $compile, $document, $parse) {
+  module.directive('nsPopover', ['nsPopover','$rootScope','$timeout','$templateCache','$q','$http','$compile','$document','$parse',
+    function(nsPopover, $rootScope, $timeout, $templateCache, $q, $http, $compile, $document, $parse) {
       return {
         restrict: 'A',
         scope: true,
@@ -67,7 +56,7 @@
             hideOnButtonClick: toBoolean(attrs.nsPopoverHideOnButtonClick || defaults.hideOnButtonClick),
             mouseRelative: attrs.nsPopoverMouseRelative,
             popupDelay: attrs.nsPopoverPopupDelay || defaults.popupDelay,
-            modal: attrs.nsPopoverModal || defaults.modal
+            group: attrs.nsPopoverGroup
           };
 
           if (options.mouseRelative) {
@@ -90,9 +79,9 @@
                 delay = 0;
               }
 
-              //hide any popovers being displayed
-              if (options.modal){
-               $rootScope.$broadcast('hidePopover', options.modal);
+              // hide any popovers being displayed
+              if (options.group) {
+                $rootScope.$broadcast('ns:popover:hide', options.group);
               }
 
               displayer_.id_ = $timeout(function() {
@@ -218,10 +207,10 @@
               hider_.hide($popover, 0);
             };
 
-            scope.$on('hidePopover', function(ev, modal){
-                if (options.modal === modal) {
-                  scope.hidePopover();
-                }
+            scope.$on('ns:popover:hide', function(ev, group) {
+              if (options.group === group) {
+                scope.hidePopover();
+              }
             });
 
             $popover
