@@ -67,7 +67,13 @@
           var displayer_ = {
             id_: undefined,
 
-            display: function(popover, delay, e) {
+            /**
+             * Set the display property of the popover to 'block' after |delay| milliseconds.
+             *
+             * @param delay {Number}  The time (in seconds) to wait before set the display property.
+             * @param e {Event}  The event which caused the popover to be shown.
+             */
+            display: function(delay, e) {
               // Disable popover if ns-popover value is false
               if ($parse(attrs.nsPopover)(scope) === false) {
                 return;
@@ -126,12 +132,9 @@
             /**
              * Set the display property of the popover to 'none' after |delay| milliseconds.
              *
-             * @param popover {Object} The popover to set the display property.
              * @param delay {Number}  The time (in seconds) to wait before set the display property.
-             * @returns {Object|promise} A promise returned from the $timeout service that can be used
-             *                           to cancel the hiding operation.
              */
-            hide: function(popover, delay) {
+            hide: function(delay) {
               $timeout.cancel(hider_.id_);
 
               // delay the hiding operation for 1.5s by default.
@@ -145,7 +148,7 @@
                 elm.off('click', buttonClickHandler);
                 $popover.isOpen = false;
                 displayer_.cancel();
-                popover.css('display', 'none');
+                $popover.css('display', 'none');
               }, delay*1000);
             },
 
@@ -204,12 +207,12 @@
             });
 
             scope.hidePopover = function() {
-              hider_.hide($popover, 0);
+              hider_.hide(0);
             };
 
             scope.$on('ns:popover:hide', function(ev, group) {
               if (options.group === group) {
-                scope.hidePopover();
+                  scope.hidePopover();
               }
             });
 
@@ -243,19 +246,19 @@
           if (options.angularEvent) {
             $rootScope.$on(options.angularEvent, function() {
               hider_.cancel();
-              displayer_.display($popover, options.popupDelay);
+              displayer_.display(options.popupDelay);
             });
           } else {
             elm.on(options.trigger, function(e) {
               e.preventDefault();
               hider_.cancel();
-              displayer_.display($popover, options.popupDelay, e);
+              displayer_.display(options.popupDelay, e);
             });
           }
 
           elm
             .on('mouseout', function() {
-              hider_.hide($popover, options.timeout);
+              hider_.hide(options.timeout);
             })
             .on('mouseover', function() {
               hider_.cancel();
@@ -263,7 +266,7 @@
 
           $popover
             .on('mouseout', function(e) {
-              hider_.hide($popover, options.timeout);
+              hider_.hide(options.timeout);
             })
             .on('mouseover', function() {
               hider_.cancel();
@@ -415,7 +418,7 @@
 
           function insideClickHandler() {
             if ($popover.isOpen) {
-              hider_.hide($popover, 0);
+              hider_.hide(0);
             }
           }
 
@@ -423,7 +426,7 @@
             if ($popover.isOpen && e.target !== elm[0]) {
               var id = $popover[0].id;
               if (!isInPopover(e.target)) {
-                hider_.hide($popover, 0);
+                hider_.hide(0);
               }
             }
 
@@ -449,7 +452,7 @@
 
           function buttonClickHandler() {
             if ($popover.isOpen) {
-              hider_.hide($popover, 0);
+              hider_.hide(0);
             }
           }
         }
