@@ -13,7 +13,9 @@
       theme: 'ns-popover-list-theme',
       plain: 'false',
       trigger: 'click',
+      triggerPrevent: true,
       angularEvent: '',
+      scopeEvent: '',
       container: 'body',
       placement: 'bottom|left',
       timeout: 1.5,
@@ -47,7 +49,9 @@
             theme: attrs.nsPopoverTheme || defaults.theme,
             plain: toBoolean(attrs.nsPopoverPlain || defaults.plain),
             trigger: attrs.nsPopoverTrigger || defaults.trigger,
+            triggerPrevent: attrs.nsPopoverTriggerPrevent || defaults.triggerPrevent,
             angularEvent: attrs.nsPopoverAngularEvent || defaults.angularEvent,
+            scopeEvent: attrs.nsPopoverScopeEvent || defaults.scopeEvent,
             container: attrs.nsPopoverContainer || defaults.container,
             placement: attrs.nsPopoverPlacement || defaults.placement,
             timeout: attrs.nsPopoverTimeout || defaults.timeout,
@@ -248,9 +252,16 @@
               hider_.cancel();
               displayer_.display(options.popupDelay);
             });
+          } else if (options.scopeEvent) {
+            scope.$on(options.scopeEvent, function() {
+              hider_.cancel();
+              displayer_.display($popover, options.popupDelay);
+            });
           } else {
             elm.on(options.trigger, function(e) {
-              e.preventDefault();
+              if (false !== options.triggerPrevent) {
+                e.preventDefault();
+              }
               hider_.cancel();
               displayer_.display(options.popupDelay, e);
             });
