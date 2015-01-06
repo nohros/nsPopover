@@ -25,13 +25,13 @@
       mouseRelative: '',
       popupDelay: 0
     };
+    
+    this.getDefaults = function() {
+      return defaults;
+    };
 
-    this.$get = function () {
-      return {
-        getDefaults: function () {
-          return defaults;
-        }
-      };
+    this.$get = function() {
+      return this;
     };
   });
 
