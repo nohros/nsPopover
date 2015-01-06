@@ -26,14 +26,13 @@
       popupDelay: 0
     };
 
-    this.$get = [
-      function () {
-        return {
-          getDefaults: function () {
-            return defaults;
-          }
-        };
-      }];
+    this.$get = function () {
+      return {
+        getDefaults: function () {
+          return defaults;
+        }
+      };
+    };
   });
 
   module.directive('nsPopover', ['nsPopover','$rootScope','$timeout','$templateCache','$q','$http','$compile','$document','$parse',
