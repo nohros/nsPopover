@@ -25,15 +25,13 @@
       mouseRelative: '',
       popupDelay: 0
     };
-    
-    this.setDefaults = function(newDefaults) {
-      angular.extend(defaults, newDefaults);
-    };
 
-    this.$get = function() {
-      getDefaults: function() {
-        return defaults;
-      }
+    this.$get = function () {
+      return {
+        getDefaults: function () {
+          return defaults;
+        }
+      };
     };
   });
 
