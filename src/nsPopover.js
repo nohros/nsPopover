@@ -26,12 +26,14 @@
       popupDelay: 0
     };
     
-    this.getDefaults = function() {
-      return defaults;
+    this.setDefaults = function(newDefaults) {
+      angular.extend(defaults, newDefaults);
     };
 
     this.$get = function() {
-      return this;
+      getDefaults: function() {
+        return defaults;
+      }
     };
   });
 
