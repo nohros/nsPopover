@@ -107,8 +107,8 @@ triggered by the popover.
 ### ``ns-popover-placement {String}``
 
 Specifies how to position the popover relative to the triggering element. The placement attribute has the given
-syntax: [position] [alignment]. The [position] parameter specifies the position - top, left, right, position - of
-the popover, and the alignment defines the alignment of the popover - center, left, right. The list above shows
+syntax: [position]|[alignment]. The [position] parameter specifies the position (top/right/bottom/left) of
+the popover, and the alignment defines the alignment of the popover (left/center/right). The list below shows
 the possible combinations of [position] and [alignment].
 
 Position | Alignment | Description
