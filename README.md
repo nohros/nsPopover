@@ -82,7 +82,7 @@ angular ``$http`` service and cached (content will not be loaded if it is alread
 can be loaded through ``path`` to external html template or ``<script>`` tag with ``text\ng-template``.
 
 ```javascript
-<script type="text\ng-template" id="templateId">
+<script type="text/ng-template" id="templateId">
   <h1>Template heading</h1>
   <p>Some content</p>
 </script>
