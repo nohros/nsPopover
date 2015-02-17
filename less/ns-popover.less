@@ -63,7 +63,7 @@
     position: absolute;
   }
 
-  & when (@triangle-direction = top) {
+  & when (@triangle-direction = "top") {
     border-top-color: @triangle-border-color;
     left:50%;
     bottom: -@triangle-size;
@@ -77,7 +77,7 @@
     }
   }
 
-  & when (@triangle-direction = bottom) {
+  & when (@triangle-direction = "bottom") {
     border-bottom-color: @triangle-border-color;
     left:50%;
     top: -@triangle-size;
@@ -91,7 +91,7 @@
     }
   }
 
-  & when (@triangle-direction = left) {
+  & when (@triangle-direction = "left") {
     border-left-color: @triangle-border-color;
     top:50%;
     right: -@triangle-size;
@@ -105,7 +105,7 @@
     }
   }
 
-  & when (@triangle-direction = right) {
+  & when (@triangle-direction = "right") {
     border-right-color: @triangle-border-color;
     top:50%;
     left: -@triangle-size;
