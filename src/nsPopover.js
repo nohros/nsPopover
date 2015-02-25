@@ -227,24 +227,11 @@
               .css('position', 'absolute')
               .css('display', 'none');
 
-            // When the tooltip style is used we need to position the triangle in the
-            // center of the triggering element. We try first to find the elements that
-            // has the |triangle| class using the find method, hoping that the full jquery
-            // library is in use.
-            $triangle = $popover.find('.triangle');
-
-            // If the element is not found through the use of its class we will assume
-            // that the full jquery library is not in use and will try to find the
-            // triangle by inspecting each child of the |popover|.
-            if (!$triangle.length) {
-              var children = $popover.children();
-              for(var i = 0; i < children.length; ++i) {
-                var triangle = $el(children[i]);
-                if (triangle.hasClass('triangle')) {
-                  $triangle = triangle;
-                  break;
-                }
-              }
+            //search for the triangle element - works in ie8+
+            $triangle = $popover[0].querySelectorAll('.triangle');
+            //if the element is found, then convert it to an angular element
+            if($triangle.length){
+              $triangle = $el($triangle);
             }
 
             $container.append($popover);
