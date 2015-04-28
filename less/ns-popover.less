@@ -1,3 +1,4 @@
+@popover-z-index: 100;
 @popover-bg-color: #fff;
 @popover-border-color: #d2d2d2;
 
@@ -9,8 +10,8 @@
   box-sizing: border-box;
   border: solid 1px @popover-border-color;
   border-radius: 3px;
-  z-index: 100;
-  background-color: #fff;
+  z-index: @popover-z-index;
+  background-color: @popover-bg-color;
   -webkit-box-shadow: 0 0.3125rem 0.625rem rgba(0,0,0,0.2);
      -moz-box-shadow: 0 0.3125rem 0.625rem rgba(0,0,0,0.2);
           box-shadow: 0 0.3125rem 0.625rem rgba(0,0,0,0.2);
@@ -122,15 +123,14 @@
 
 .ns-popover-tooltip-theme {
   box-sizing: border-box;
-  z-index: 100;
+  z-index: @popover-z-index;
   background-color: transparent;
 
   .ns-popover-tooltip {
     box-sizing: border-box;
     border: solid 1px @popover-border-color;
     border-radius: 3px;
-    z-index: 100;
-    background-color: #fff;
+    background-color: @popover-bg-color;
     padding: 0.5625rem 0.875rem;
     max-width: 20rem;
     font-size: 0.875rem;
