@@ -102,7 +102,7 @@ DOM element can trigger, default: ``click``.
 ### ``ns-popover-timeout {Number}``
 
 The ``ns-popover-timeout`` specify the time to wait before closing the popover and after the mouseout event is
-triggered by the popover.
+triggered by the popover, default 1.5 seconds, use -1 to disable to timeout.
 
 ### ``ns-popover-placement {String}``
 
