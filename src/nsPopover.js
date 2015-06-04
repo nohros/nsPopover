@@ -144,19 +144,22 @@
             hide: function(delay) {
               $timeout.cancel(hider_.id_);
 
-              // delay the hiding operation for 1.5s by default.
-              if (!isDef(delay)) {
-                delay = 1.5;
-              }
+              // do not hide if -1 is passed in.
+              if(delay !== "-1") {
+                // delay the hiding operation for 1.5s by default.
+                if (!isDef(delay)) {
+                  delay = 1.5;
+                }
 
-              hider_.id_ = $timeout(function() {
-                $popover.off('click', insideClickHandler);
-                $document.off('click', outsideClickHandler);
-                elm.off('click', buttonClickHandler);
-                $popover.isOpen = false;
-                displayer_.cancel();
-                $popover.css('display', 'none');
-              }, delay*1000);
+                hider_.id_ = $timeout(function() {
+                  $popover.off('click', insideClickHandler);
+                  $document.off('click', outsideClickHandler);
+                  elm.off('click', buttonClickHandler);
+                  $popover.isOpen = false;
+                  displayer_.cancel();
+                  $popover.css('display', 'none');
+                }, delay*1000);
+              }
             },
 
             cancel: function() {
