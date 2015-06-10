@@ -144,19 +144,22 @@
             hide: function(delay) {
               $timeout.cancel(hider_.id_);
 
-              // delay the hiding operation for 1.5s by default.
-              if (!isDef(delay)) {
-                delay = 1.5;
-              }
+              // do not hide if -1 is passed in.
+              if(delay !== "-1") {
+                // delay the hiding operation for 1.5s by default.
+                if (!isDef(delay)) {
+                  delay = 1.5;
+                }
 
-              hider_.id_ = $timeout(function() {
-                $popover.off('click', insideClickHandler);
-                $document.off('click', outsideClickHandler);
-                elm.off('click', buttonClickHandler);
-                $popover.isOpen = false;
-                displayer_.cancel();
-                $popover.css('display', 'none');
-              }, delay*1000);
+                hider_.id_ = $timeout(function() {
+                  $popover.off('click', insideClickHandler);
+                  $document.off('click', outsideClickHandler);
+                  elm.off('click', buttonClickHandler);
+                  $popover.isOpen = false;
+                  displayer_.cancel();
+                  $popover.css('display', 'none');
+                }, delay*1000);
+              }
             },
 
             cancel: function() {
@@ -227,24 +230,11 @@
               .css('position', 'absolute')
               .css('display', 'none');
 
-            // When the tooltip style is used we need to position the triangle in the
-            // center of the triggering element. We try first to find the elements that
-            // has the |triangle| class using the find method, hoping that the full jquery
-            // library is in use.
-            $triangle = $popover.find('.triangle');
-
-            // If the element is not found through the use of its class we will assume
-            // that the full jquery library is not in use and will try to find the
-            // triangle by inspecting each child of the |popover|.
-            if (!$triangle.length) {
-              var children = $popover.children();
-              for(var i = 0; i < children.length; ++i) {
-                var triangle = $el(children[i]);
-                if (triangle.hasClass('triangle')) {
-                  $triangle = triangle;
-                  break;
-                }
-              }
+            //search for the triangle element - works in ie8+
+            $triangle = $popover[0].querySelectorAll('.triangle');
+            //if the element is found, then convert it to an angular element
+            if($triangle.length){
+              $triangle = $el($triangle);
             }
 
             $container.append($popover);

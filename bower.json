@@ -1,6 +1,6 @@
 {
   "name": "nsPopover",
-  "version": "0.6.6",
+  "version": "0.6.8",
   "homepage": "https://github.com/nohros/nsPopover",
   "description": "Popover for angularjs library",
   "authors": [
@@ -8,7 +8,8 @@
   ],
   "main": [
     "src/nsPopover.js",
-    "sass/ns-popover.scss"
+    "sass/ns-popover.scss",
+    "less/ns-popover.less"
   ],
   "keywords": [
     "angularjs",
