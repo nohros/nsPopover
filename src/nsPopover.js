@@ -325,7 +325,7 @@
               .css('top', top.toString() + 'px')
               .css('left', left.toString() + 'px');
 
-            if (triangle) {
+            if (triangle && triangle.length) {
               if (placement === 'top' || placement === 'bottom') {
                 left = rect.left + rect.width / 2 - left;
                 triangle.css('left', left.toString() + 'px');
