@@ -23,7 +23,8 @@
       hideOnOutsideClick: true,
       hideOnButtonClick: true,
       mouseRelative: '',
-      popupDelay: 0
+      popupDelay: 0,
+      restrictBounds: false,
     };
 
     this.setDefaults = function(newDefaults) {
@@ -63,7 +64,8 @@
             hideOnButtonClick: toBoolean(attrs.nsPopoverHideOnButtonClick || defaults.hideOnButtonClick),
             mouseRelative: attrs.nsPopoverMouseRelative,
             popupDelay: attrs.nsPopoverPopupDelay || defaults.popupDelay,
-            group: attrs.nsPopoverGroup
+            group: attrs.nsPopoverGroup,
+            restrictBounds: Boolean(attrs.nsPopoverRestrictBounds) || defaults.restrictBounds,
           };
 
           if (options.mouseRelative) {
@@ -286,7 +288,9 @@
            * @param triangle {Object} The element that contains the popover's triangle. This can be null.
            */
           function move(popover, placement, align, rect, triangle) {
+            var containerRect;
             var popoverRect = getBoundingClientRect(popover[0]);
+            var popoverRight;
             var top, left;
 
             var positionX = function() {
@@ -319,6 +323,21 @@
             } else if (placement === 'left') {
               top = positionY();
               left = rect.left - popoverRect.width;
+            }
+
+            // Rescrict the popover to the bounds of the container
+            if (true === options.restrictBounds) {
+              containerRect = getBoundingClientRect($container[0]);
+
+              // The left should be below the left of the container.
+              left = Math.max(containerRect.left, left);
+
+              // Prevent the left from causing the right to go outside
+              // the conatiner.
+              popoverRight = left + popoverRect.width;
+              if (popoverRight > containerRect.width) {
+                left = left - (popoverRight - containerRect.width);
+              }
             }
 
             popover
