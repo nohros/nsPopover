@@ -382,6 +382,10 @@
               }
 
               displayer_.id_ = $timeout(function() {
+                if (true === $popover.isOpen) {
+                  return;
+                }
+
                 $popover.isOpen = true;
                 $popover.css('display', 'block');
 
