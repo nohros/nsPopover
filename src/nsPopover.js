@@ -15,6 +15,8 @@
       hideOnInsideClick: false,
       hideOnOutsideClick: true,
       mouseRelative: '',
+      onClose: angular.noop,
+      onOpen: angular.noop,
       placement: 'bottom|left',
       plain: 'false',
       popupDelay: 0,
@@ -81,6 +83,8 @@
             hideOnInsideClick: toBoolean(attrs.nsPopoverHideOnInsideClick || defaults.hideOnInsideClick),
             hideOnOutsideClick: toBoolean(attrs.nsPopoverHideOnOutsideClick || defaults.hideOnOutsideClick),
             mouseRelative: attrs.nsPopoverMouseRelative,
+            onClose: $parse(attrs.nsPopoverOnClose) || defaults.onClose,
+            onOpen: $parse(attrs.nsPopoverOnOpen) || defaults.onOpen,
             placement: attrs.nsPopoverPlacement || defaults.placement,
             plain: toBoolean(attrs.nsPopoverPlain || defaults.plain),
             popupDelay: attrs.nsPopoverPopupDelay || defaults.popupDelay,
@@ -382,6 +386,10 @@
               }
 
               displayer_.id_ = $timeout(function() {
+                if (true === $popover.isOpen) {
+                  return;
+                }
+
                 $popover.isOpen = true;
                 $popover.css('display', 'block');
 
@@ -412,6 +420,9 @@
                 if (true === options.hideOnButtonClick) {
                   elm.on('click', buttonClickHandler);
                 }
+
+                // Call the open callback
+                options.onOpen(scope);
               }, delay*1000);
             },
 
@@ -450,6 +461,9 @@
                   displayer_.cancel();
                   $popover.css('display', 'none');
                   removeEventListeners();
+
+                  // Call the close callback
+                  options.onClose(scope);
                 }, delay*1000);
               }
             },
