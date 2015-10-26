@@ -126,10 +126,9 @@ right | center | The popover will be positioned on the right side of the trigger
 right | top | The popover will be positioned on the right side of the triggering element and its top will be aligned with the top of the triggering element.
 right | bottom | The popover will be positioned on the right side of the triggering element and its bottom will be aligned with the bottom of the triggering element.
 
-### ``ns-popover-hide-on-click {Boolean}``
+### `ns-popover-hide-on-inside-click {Boolean}`
 
-The ``ns-popover-hide-on-click`` specify whether to close the popover when clicking on it, default: ``true``. This
-allows for element-targeted closing of the popover (e.g via a close button within the popover element).
+The `ns-popover-hide-on-inside-click` attribute specifies whether or not to close the popover when clicking on it (or an element inside of it). Setting this to false allows for element-targeted closing of the popover (i.e. a close button _inside_ the popover). Defaults to `false`.
 
 ### ``ns-popover-mouse-relative {{String}}``
 
