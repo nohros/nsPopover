@@ -2,7 +2,6 @@
   'use strict';
 
   var $el = angular.element;
-  var $popovers = [];
   var globalId = 0;
   var isDef = angular.isDefined;
   var module = angular.module('nsPopover', []);
@@ -503,7 +502,6 @@
             .css('position', 'absolute')
             .css('display', 'none')
           ;
-          $popovers.push($popover);
 
           // Allow closing the popover programatically.
           scope.hidePopover = function() {
