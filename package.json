@@ -13,6 +13,7 @@
     "type": "git",
     "url": "git@github.com:nohros/nsPopover.git"
   },
+  "main": "./index.js",
   "dependencies": {},
   "devDependencies": {
     "grunt": "~0.4.1",
